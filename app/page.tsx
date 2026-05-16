@@ -1,18 +1,29 @@
+import Navbar from "@/components/landing/Navbar";
+import HeroSection from "@/components/landing/HeroSection";
+import StatsRow from "@/components/landing/StatsRow";
+import Ticker from "@/components/landing/Ticker";
+import HowItWorks from "@/components/landing/HowItWorks";
+import PlatformsSection from "@/components/landing/PlatformsSection";
+import FeaturesSection from "@/components/landing/FeaturesSection";
+import PricingSection from "@/components/landing/PricingSection";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import CtaSection from "@/components/landing/CtaSection";
+import Footer from "@/components/landing/Footer";
+
 export default function Home() {
   return (
-    <div
-      style={{ backgroundColor: "#111111" }}
-      className="min-h-screen flex flex-col items-center justify-center gap-8"
-    >
-      <h1 className="text-white text-4xl font-bold tracking-tight">
-        Orda — Coming Soon
-      </h1>
-      <button
-        style={{ backgroundColor: "#7C3AED" }}
-        className="text-white font-semibold px-8 py-3 rounded-lg hover:opacity-90 transition-opacity duration-200"
-      >
-        Get Early Access
-      </button>
-    </div>
+    <main style={{ backgroundColor: "#111111", minHeight: "100vh" }}>
+      <Navbar />
+      <HeroSection />
+      <StatsRow />
+      <Ticker />
+      <HowItWorks />
+      <PlatformsSection />
+      <FeaturesSection />
+      <PricingSection />
+      <TestimonialsSection />
+      <CtaSection />
+      <Footer />
+    </main>
   );
 }

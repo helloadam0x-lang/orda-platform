@@ -1,9 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import OrdaLogo from "@/components/shared/OrdaLogo";
 
-const NAV_LINKS = ["Features", "Pricing", "Partners", "Enterprise"];
+const NAV_LINKS = ["Features", "Pricing"];
 
 export default function Navbar() {
   return (
@@ -15,7 +14,17 @@ export default function Navbar() {
       style={{ background: "rgba(17,17,17,0.9)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", borderBottom: "1px solid #1a2400" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <OrdaLogo variant="full" size="sm" />
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
+          <span
+            style={{ color: "#E4F0F6", fontSize: 18, fontWeight: 700, fontFamily: "var(--font-space-grotesk)", letterSpacing: "-0.02em" }}
+          >
+            ORDA
+          </span>
+          <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#8729A0" }} />
+        </Link>
+
+        {/* Nav links */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((l) => (
             <Link
@@ -28,15 +37,20 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
+
+        {/* Right actions */}
         <div className="flex items-center gap-4">
           <Link
             href="#"
             className="hidden sm:block hover:text-[#E4F0F6] transition-colors duration-200"
             style={{ color: "#8892A4", fontSize: 14, fontFamily: "var(--font-inter)" }}
           >
-            Sign in
+            Sign In
           </Link>
-          <button className="orda-btn-primary" style={{ padding: "8px 20px", fontSize: 14 }}>
+          <button
+            style={{ background: "#8729A0", color: "#E4F0F6", borderRadius: 8, padding: "8px 20px", fontSize: 14, fontWeight: 600, fontFamily: "var(--font-inter)", border: "none", cursor: "pointer" }}
+            className="hover:opacity-90 transition-opacity duration-200"
+          >
             Start Free
           </button>
         </div>
