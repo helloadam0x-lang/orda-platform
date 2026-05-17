@@ -1,7 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
-import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useStaggerAnimation } from "@/hooks/useStaggerAnimation";
 
 const PLANS = [
   {
@@ -36,38 +35,24 @@ const PLANS = [
 ];
 
 export default function PricingSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const titleRef = useScrollAnimation();
+  const cardsRef = useStaggerAnimation(".pricing-card");
 
   return (
-    <section ref={ref} id="pricing" className="py-24 px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-4"
-          style={{ color: "#E4F0F6", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, fontFamily: "var(--font-space-grotesk)" }}
-        >
-          Simple Pricing. Always.
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-center mb-14"
-          style={{ color: "#8892A4", fontSize: 16, fontFamily: "var(--font-inter)" }}
-        >
-          No surprises. No hidden fees.
-        </motion.p>
+        <div ref={titleRef} className="will-animate text-center mb-14">
+          <h2 style={{ color: "#E4F0F6", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, fontFamily: "var(--font-space-grotesk)", marginBottom: 12 }}>
+            Simple Pricing. Always.
+          </h2>
+          <p style={{ color: "#8892A4", fontSize: 16, fontFamily: "var(--font-inter)" }}>No surprises. No hidden fees.</p>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {PLANS.map((plan, i) => (
-            <motion.div
+        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {PLANS.map((plan) => (
+            <div
               key={plan.name}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.1 + i * 0.1, ease: "easeOut" }}
+              className="pricing-card will-animate"
               style={{
                 background: "#0A1200",
                 border: `1.5px solid ${plan.highlight ? "#8729A0" : "#1a2400"}`,
@@ -75,8 +60,8 @@ export default function PricingSection() {
                 padding: 28,
                 display: "flex",
                 flexDirection: "column",
-                gap: 0,
                 position: "relative",
+                transform: plan.highlight ? "scale(1.04)" : "scale(1)",
               }}
             >
               {plan.badge && (
@@ -138,19 +123,13 @@ export default function PricingSection() {
               >
                 {plan.price === "$0" ? "Start Free Trial" : "Get Started"}
               </button>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center mt-8"
-          style={{ color: "#8892A4", fontSize: 13, fontFamily: "var(--font-inter)" }}
-        >
+        <p className="text-center mt-8" style={{ color: "#8892A4", fontSize: 13, fontFamily: "var(--font-inter)" }}>
           $25 one-time setup · Cancel anytime · 7-day free trial
-        </motion.p>
+        </p>
       </div>
     </section>
   );

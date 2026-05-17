@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
+import SmoothScroll from "@/components/shared/SmoothScroll";
 import "./globals.css";
 
 const inter = Inter({
@@ -31,7 +32,9 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
         style={{ background: "#111111" }}
       >
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
         <Toaster theme="dark" />
       </body>
     </html>

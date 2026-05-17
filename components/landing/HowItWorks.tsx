@@ -1,7 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
-import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useStaggerAnimation } from "@/hooks/useStaggerAnimation";
 
 const STEPS = [
   {
@@ -22,42 +21,28 @@ const STEPS = [
 ];
 
 export default function HowItWorks() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const titleRef = useScrollAnimation();
+  const stepsRef = useStaggerAnimation(".step-card");
 
   return (
-    <section ref={ref} id="features" className="py-24 px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-16"
-          style={{ color: "#E4F0F6", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, fontFamily: "var(--font-space-grotesk)" }}
-        >
-          Up and Running in 5 Minutes
-        </motion.h2>
+        <div ref={titleRef} className="will-animate text-center mb-16">
+          <h2 style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 700, fontSize: "clamp(28px, 4vw, 48px)" }}>
+            <span style={{ color: "#E4F0F6" }}>Up and Running</span>{" "}
+            <span style={{ color: "#8729A0" }}>in 5 Minutes</span>
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {STEPS.map((step, i) => (
-            <motion.div
+        <div ref={stepsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {STEPS.map((step) => (
+            <div
               key={step.num}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.1 + i * 0.15, ease: "easeOut" }}
-              className="flex flex-col items-center text-center gap-5"
+              className="step-card will-animate flex flex-col items-center text-center gap-5"
+              style={{ background: "#0A1200", border: "1.5px solid #1a2400", borderRadius: 16, padding: 28 }}
             >
               <div
-                style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: "50%",
-                  background: "#8729A0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
+                style={{ width: 56, height: 56, borderRadius: "50%", background: "linear-gradient(135deg, #8729A0, #6a1f80)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
               >
                 <span style={{ color: "#E4F0F6", fontSize: 18, fontWeight: 700, fontFamily: "var(--font-space-grotesk)" }}>
                   {step.num}
@@ -69,7 +54,7 @@ export default function HowItWorks() {
               <p style={{ color: "#8892A4", fontSize: 14, fontFamily: "var(--font-inter)", lineHeight: 1.7 }}>
                 {step.desc}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

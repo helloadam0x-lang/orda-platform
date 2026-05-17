@@ -1,49 +1,44 @@
 "use client";
-import { motion } from "framer-motion";
 import Link from "next/link";
 
-const NAV_LINKS = ["Features", "Pricing"];
+const NAV_LINKS = ["Features", "Pricing", "Partners", "Enterprise"];
 
 export default function Navbar() {
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="sticky top-0 z-50"
-      style={{ background: "rgba(17,17,17,0.9)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", borderBottom: "1px solid #1a2400" }}
+    <nav
+      className="sticky top-0 z-50 backdrop-blur-xl"
+      style={{ background: "rgba(17,17,17,0.85)", borderBottom: "1px solid #1a2400" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2" style={{ textDecoration: "none" }}>
-          <span
-            style={{ color: "#E4F0F6", fontSize: 18, fontWeight: 700, fontFamily: "var(--font-space-grotesk)", letterSpacing: "-0.02em" }}
-          >
+          <span style={{ color: "#E4F0F6", fontSize: 18, fontWeight: 700, fontFamily: "var(--font-space-grotesk)", letterSpacing: "-0.02em" }}>
             ORDA
           </span>
           <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#8729A0" }} />
         </Link>
 
-        {/* Nav links */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((l) => (
             <Link
               key={l}
               href={`#${l.toLowerCase()}`}
-              className="hover:text-[#E4F0F6] transition-colors duration-200"
-              style={{ color: "#8892A4", fontSize: 14, fontWeight: 500, fontFamily: "var(--font-inter)" }}
+              className="transition-colors duration-200"
+              style={{ color: "#8892A4", fontSize: 14, fontWeight: 500, fontFamily: "var(--font-inter)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#E4F0F6")}
+              onMouseLeave={e => (e.currentTarget.style.color = "#8892A4")}
             >
               {l}
             </Link>
           ))}
         </div>
 
-        {/* Right actions */}
         <div className="flex items-center gap-4">
           <Link
             href="#"
-            className="hidden sm:block hover:text-[#E4F0F6] transition-colors duration-200"
-            style={{ color: "#8892A4", fontSize: 14, fontFamily: "var(--font-inter)" }}
+            className="hidden sm:block transition-colors duration-200"
+            style={{ color: "#8892A4", fontSize: 14, fontFamily: "var(--font-inter)", textDecoration: "none" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#E4F0F6")}
+            onMouseLeave={e => (e.currentTarget.style.color = "#8892A4")}
           >
             Sign In
           </Link>
@@ -55,6 +50,6 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 }

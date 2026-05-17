@@ -1,7 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
-import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useStaggerAnimation } from "@/hooks/useStaggerAnimation";
 
 const TESTIMONIALS = [
   {
@@ -22,35 +21,24 @@ const TESTIMONIALS = [
 ];
 
 export default function TestimonialsSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const titleRef = useScrollAnimation();
+  const cardsRef = useStaggerAnimation(".testimonial-card");
 
   return (
-    <section ref={ref} className="py-24 px-4 sm:px-6 lg:px-8">
+    <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="text-center mb-14"
-          style={{ color: "#E4F0F6", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, fontFamily: "var(--font-space-grotesk)" }}
-        >
-          Businesses That Never Look Back
-        </motion.h2>
+        <div ref={titleRef} className="will-animate text-center mb-14">
+          <h2 style={{ color: "#E4F0F6", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, fontFamily: "var(--font-space-grotesk)" }}>
+            Businesses That Never Look Back
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {TESTIMONIALS.map((t) => (
+            <div
               key={t.name}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.1 + i * 0.13, ease: "easeOut" }}
-              style={{
-                background: "#0A1200",
-                border: "1.5px solid #1a2400",
-                borderRadius: 16,
-                padding: 28,
-              }}
+              className="testimonial-card will-animate"
+              style={{ background: "#0A1200", border: "1.5px solid #1a2400", borderRadius: 16, padding: 28 }}
             >
               <div className="flex gap-1 mb-5">
                 {[...Array(5)].map((_, j) => (
@@ -60,13 +48,13 @@ export default function TestimonialsSection() {
               <p
                 style={{ color: "#E4F0F6", fontSize: 14, fontFamily: "var(--font-inter)", fontStyle: "italic", lineHeight: 1.75, marginBottom: 20 }}
               >
-                "{t.quote}"
+                &ldquo;{t.quote}&rdquo;
               </p>
               <div>
                 <p style={{ color: "#E4F0F6", fontSize: 14, fontWeight: 700, fontFamily: "var(--font-inter)" }}>{t.name}</p>
                 <p style={{ color: "#8892A4", fontSize: 13, fontFamily: "var(--font-inter)" }}>{t.role}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
