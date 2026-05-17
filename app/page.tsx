@@ -3,7 +3,7 @@ import HeroSection from "@/components/landing/HeroSection";
 import StatsRow from "@/components/landing/StatsRow";
 import Ticker from "@/components/landing/Ticker";
 import HowItWorks from "@/components/landing/HowItWorks";
-import PlatformsSection from "@/components/landing/PlatformsSection";
+import ShowcasePortfolio from "@/components/landing/ShowcasePortfolio";
 import FeaturesSection from "@/components/landing/FeaturesSection";
 import PricingSection from "@/components/landing/PricingSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
@@ -18,7 +18,7 @@ export default function Home() {
       <StatsRow />
       <Ticker />
       <HowItWorks />
-      <PlatformsSection />
+      <ShowcasePortfolio />
       <FeaturesSection />
       <PricingSection />
       <TestimonialsSection />
