@@ -1,77 +1,94 @@
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import StatsRow from '@/components/dashboard/StatsRow'
+import ActivityChart from '@/components/dashboard/ActivityChart'
+import RecentConversations from '@/components/dashboard/RecentConversations'
+import RecentOrders from '@/components/dashboard/RecentOrders'
+import PlatformStatus from '@/components/dashboard/PlatformStatus'
+import QuickActions from '@/components/dashboard/QuickActions'
+import type { Business, Conversation, Order, DayActivity } from '@/types/database'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/sign-in')
 
   const { data: business } = await supabase
     .from('businesses')
     .select('*')
-    .eq('user_id', user?.id ?? '')
+    .eq('user_id', user.id)
     .single()
 
-  const fullName = user?.user_metadata?.full_name as string | undefined
-  const greeting = fullName ? `Welcome, ${fullName.split(' ')[0]}` : 'Welcome to Orda'
+  if (!business) redirect('/onboarding')
 
-  const platforms = [
-    { key: 'whatsapp_connected', label: 'WhatsApp', color: '#25D366' },
-    { key: 'instagram_connected', label: 'Instagram', color: '#C13584' },
-    { key: 'tiktok_connected', label: 'TikTok', color: '#FE2C55' },
-    { key: 'facebook_connected', label: 'Facebook', color: '#1877F2' },
-  ] as const
+  const [
+    contactsRes,
+    convsRes,
+    ordersRes,
+    recentConvsRes,
+    recentOrdersRes,
+    paymentsRes,
+  ] = await Promise.all([
+    supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('business_id', business.id),
+    supabase.from('conversations').select('*', { count: 'exact', head: true }).eq('business_id', business.id),
+    supabase.from('orders').select('*', { count: 'exact', head: true }).eq('business_id', business.id),
+    supabase.from('conversations')
+      .select('id, created_at, platform, status, is_ai_handling, last_message, unread_count, contact:contacts(name, platform)')
+      .eq('business_id', business.id)
+      .order('created_at', { ascending: false })
+      .limit(5),
+    supabase.from('orders')
+      .select('id, created_at, order_number, amount, status, contact:contacts(name)')
+      .eq('business_id', business.id)
+      .order('created_at', { ascending: false })
+      .limit(5),
+    supabase.from('payments')
+      .select('amount')
+      .eq('business_id', business.id)
+      .eq('status', 'completed'),
+  ])
+
+  const contactsCount = contactsRes.count ?? 0
+  const conversationsCount = convsRes.count ?? 0
+  const ordersCount = ordersRes.count ?? 0
+  const recentConversations = (recentConvsRes.data ?? []) as unknown as Conversation[]
+  const recentOrders = (recentOrdersRes.data ?? []) as unknown as Order[]
+  const totalRevenue = (paymentsRes.data ?? []).reduce(
+    (sum, p) => sum + ((p as { amount: number }).amount ?? 0),
+    0
+  )
+
+  // Build 7-day activity skeleton (messages table may not exist yet)
+  const activityData: DayActivity[] = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (6 - i))
+    return { day: d.toLocaleDateString('en', { weekday: 'short' }), messages: 0 }
+  })
 
   return (
-    <div style={{ maxWidth: 900 }}>
-      <h1 style={{ color: '#E4F0F6', fontSize: 28, fontWeight: 700, margin: '0 0 4px', fontFamily: 'Space Grotesk, sans-serif' }}>
-        {greeting} 👋
-      </h1>
-      <p style={{ color: '#8892A4', fontSize: 15, marginBottom: 40 }}>
-        {business ? `Managing ${business.name}` : "Let's get your business set up."}
-      </p>
+    <div className="space-y-5 max-w-[1400px]">
+      <StatsRow
+        conversationsCount={conversationsCount}
+        contactsCount={contactsCount}
+        ordersCount={ordersCount}
+        totalRevenue={totalRevenue}
+      />
 
-      {/* Stats Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
-        {[
-          { label: 'Messages Today', value: '—' },
-          { label: 'Active Conversations', value: '—' },
-          { label: 'Plan', value: business?.plan ? business.plan.charAt(0).toUpperCase() + business.plan.slice(1) : '—' },
-          { label: 'Trial Ends', value: business?.plan_expires_at ? new Date(business.plan_expires_at).toLocaleDateString() : '—' },
-        ].map(stat => (
-          <div
-            key={stat.label}
-            style={{ background: '#0A1200', border: '1px solid #1a2400', borderRadius: 12, padding: '20px 24px' }}
-          >
-            <p style={{ color: '#8892A4', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px', fontWeight: 500 }}>{stat.label}</p>
-            <p style={{ color: '#E4F0F6', fontSize: 26, fontWeight: 700, margin: 0, fontFamily: 'Space Grotesk, sans-serif' }}>{stat.value}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Connected Platforms */}
-      <div style={{ background: '#0A1200', border: '1px solid #1a2400', borderRadius: 12, padding: '24px 28px' }}>
-        <h2 style={{ color: '#E4F0F6', fontSize: 16, fontWeight: 600, margin: '0 0 20px', fontFamily: 'Space Grotesk, sans-serif' }}>
-          Connected Platforms
-        </h2>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          {platforms.map(p => {
-            const connected = business?.[p.key] as boolean | undefined
-            return (
-              <div
-                key={p.key}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  background: connected ? `${p.color}15` : '#111111',
-                  border: `1px solid ${connected ? p.color : '#1a2400'}`,
-                  borderRadius: 8, padding: '8px 16px',
-                }}
-              >
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: connected ? p.color : '#3a4050' }} />
-                <span style={{ color: connected ? '#E4F0F6' : '#8892A4', fontSize: 13, fontWeight: 500 }}>{p.label}</span>
-              </div>
-            )
-          })}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="lg:col-span-2">
+          <ActivityChart data={activityData} />
         </div>
+        <PlatformStatus business={business as Business} />
       </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="lg:col-span-2">
+          <RecentConversations conversations={recentConversations} />
+        </div>
+        <QuickActions />
+      </div>
+
+      <RecentOrders orders={recentOrders} />
     </div>
   )
 }

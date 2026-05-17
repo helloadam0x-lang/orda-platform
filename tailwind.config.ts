@@ -21,6 +21,10 @@ const config: Config = {
         "orda-light": "#E4F0F6",
         "orda-white": "#E4F0F6",
         "orda-grey": "#8892A4",
+        "orda-success": "#00D97E",
+        "orda-warning": "#F0A500",
+        "orda-error": "#ef4444",
+        "orda-accent": "#8729A0",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
