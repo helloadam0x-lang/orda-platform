@@ -141,6 +141,28 @@ html.lenis { height: auto; }
   50% { transform: translateY(-12px); }
 }
 
+@keyframes phoneFloat {
+  0%, 100% { transform: perspective(1200px) rotateY(-8deg) rotateX(4deg) translateY(0px); }
+  50%       { transform: perspective(1200px) rotateY(-8deg) rotateX(4deg) translateY(-16px); }
+}
+
+.phone-3d {
+  animation: phoneFloat 5s ease-in-out infinite;
+}
+.phone-3d:hover {
+  animation-play-state: paused;
+  transform: perspective(1200px) rotateY(-4deg) rotateX(2deg) !important;
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% { transform: translateY(0);   opacity: 0.4; }
+  30%            { transform: translateY(-5px); opacity: 1;   }
+}
+
+.typing-dot {
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+
 @keyframes scrollLeft {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

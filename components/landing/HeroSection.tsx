@@ -1,12 +1,6 @@
 "use client";
 import { useHeroAnimation } from "@/hooks/useHeroAnimation";
-
-const phoneMessages = [
-  { from: "customer", text: "Do you have the 256GB model?" },
-  { from: "orda", text: "Yes, available in Midnight Black and Silver. Which do you prefer?" },
-  { from: "customer", text: "Midnight Black. What is the price?" },
-  { from: "orda", text: "$1,250. Want me to send a payment link?" },
-];
+import PhoneMockup from "@/components/landing/PhoneMockup";
 
 export default function HeroSection() {
   const ref = useHeroAnimation();
@@ -67,47 +61,8 @@ export default function HeroSection() {
         </div>
 
         {/* Phone Mockup */}
-        <div
-          className="hero-phone will-animate hidden lg:flex flex-col items-center flex-shrink-0"
-          style={{ animation: "float 6s ease-in-out infinite" }}
-        >
-          <div
-            style={{ width: 300, background: "#0A1200", border: "1px solid #1a2400", borderRadius: 36, padding: 16, boxShadow: "0 0 80px rgba(135,41,160,0.145)" }}
-          >
-            <div style={{ padding: "8px 8px 12px", borderBottom: "1px solid #1a2400", marginBottom: 12 }}>
-              <div className="flex items-center gap-2">
-                <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#8729A0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span style={{ color: "#E4F0F6", fontSize: 13, fontWeight: 700, fontFamily: "var(--font-space-grotesk)" }}>O</span>
-                </div>
-                <div>
-                  <p style={{ color: "#E4F0F6", fontSize: 12, fontWeight: 600, fontFamily: "var(--font-inter)" }}>Orda Business</p>
-                  <div className="flex items-center gap-1">
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e" }} />
-                    <span style={{ color: "#8892A4", fontSize: 10, fontFamily: "var(--font-inter)" }}>Online</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 px-1 pb-2">
-              {phoneMessages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.from === "customer" ? "justify-start" : "justify-end"}`}>
-                  <div
-                    style={{ background: msg.from === "customer" ? "#1a2400" : "#8729A0", color: "#E4F0F6", borderRadius: msg.from === "customer" ? "4px 14px 14px 14px" : "14px 4px 14px 14px", padding: "7px 11px", fontSize: 11, maxWidth: "82%", fontFamily: "var(--font-inter)", lineHeight: 1.5 }}
-                  >
-                    {msg.text}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-2 mt-3 p-2 mx-1 rounded-xl" style={{ background: "#111111", border: "1px solid #1a2400" }}>
-              <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e", flexShrink: 0 }} />
-              <span style={{ color: "#8892A4", fontSize: 10, fontFamily: "var(--font-inter)" }}>
-                Orda AI — Replied in 0.9s
-              </span>
-            </div>
-          </div>
+        <div className="hero-phone will-animate hidden lg:block flex-shrink-0">
+          <PhoneMockup />
         </div>
       </div>
     </section>
