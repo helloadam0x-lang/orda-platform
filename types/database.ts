@@ -1,6 +1,8 @@
 export type Platform = 'whatsapp' | 'instagram' | 'tiktok' | 'facebook'
-export type ConversationStatus = 'open' | 'resolved' | 'ai_handling'
-export type OrderStatus = 'pending' | 'confirmed' | 'delivered' | 'cancelled'
+export type ConversationStatus = 'open' | 'resolved' | 'ai_handling' | 'human'
+export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'delivered' | 'cancelled'
+export type PaymentStatus = 'unpaid' | 'paid' | 'partial'
+export type BroadcastStatus = 'draft' | 'scheduled' | 'sending' | 'sent' | 'failed'
 export type SenderType = 'customer' | 'business' | 'ai'
 
 export interface Business {
@@ -51,8 +53,9 @@ export interface Conversation {
   status: ConversationStatus
   is_ai_handling: boolean
   last_message: string | null
+  last_message_at?: string | null
   unread_count: number
-  contact?: Pick<Contact, 'name' | 'platform'> | null
+  contact?: Pick<Contact, 'name' | 'platform' | 'phone' | 'email' | 'total_orders' | 'total_spent' | 'last_active' | 'tags'> | null
 }
 
 export interface Message {
@@ -63,6 +66,12 @@ export interface Message {
   sender_type: SenderType
 }
 
+export interface OrderItem {
+  name: string
+  quantity: number
+  unit_price: number
+}
+
 export interface Order {
   id: string
   created_at: string
@@ -71,7 +80,14 @@ export interface Order {
   order_number: string
   amount: number
   status: OrderStatus
-  contact?: Pick<Contact, 'name'> | null
+  items?: OrderItem[] | null
+  delivery_address?: string | null
+  delivery_fee?: number | null
+  payment_method?: string | null
+  payment_status?: PaymentStatus | null
+  notes?: string | null
+  driver?: string | null
+  contact?: Pick<Contact, 'name' | 'phone' | 'platform'> | null
 }
 
 export interface Payment {
@@ -83,7 +99,48 @@ export interface Payment {
   status: 'pending' | 'completed' | 'failed'
 }
 
+export interface Broadcast {
+  id: string
+  created_at: string
+  business_id: string
+  title: string
+  platform: string
+  message: string
+  status: BroadcastStatus
+  recipient_count: number
+  sent_count: number
+  delivered_count: number
+  scheduled_at: string | null
+  sent_at: string | null
+}
+
 export interface DayActivity {
   day: string
   messages: number
+  ai_replies?: number
+  revenue?: number
+}
+
+export interface AdminBusiness {
+  id: string
+  created_at: string
+  name: string
+  email: string | null
+  phone: string | null
+  country: string
+  plan: string
+  plan_expires_at: string
+  is_active: boolean
+  whatsapp_connected: boolean
+  instagram_connected: boolean
+  tiktok_connected: boolean
+  facebook_connected: boolean
+}
+
+export interface ConvFilterCounts {
+  all: number
+  open: number
+  ai_handling: number
+  human: number
+  resolved: number
 }
