@@ -1,3 +1,9 @@
+export interface ProductItem {
+  name: string
+  description?: string
+  price: number
+}
+
 export type Platform = 'whatsapp' | 'instagram' | 'tiktok' | 'facebook'
 export type ConversationStatus = 'open' | 'resolved' | 'ai_handling' | 'human'
 export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'delivered' | 'cancelled'
@@ -28,6 +34,12 @@ export interface Business {
   notify_new_message?: boolean | null
   notify_new_order?: boolean | null
   notify_payment?: boolean | null
+  slug?: string | null
+  description?: string | null
+  products?: ProductItem[] | null
+  greeting?: string | null
+  ai_instructions?: string | null
+  chat_accent?: string | null
 }
 
 export interface Contact {
@@ -144,3 +156,26 @@ export interface ConvFilterCounts {
   human: number
   resolved: number
 }
+
+export interface ChatSession {
+  id: string
+  created_at: string
+  business_id: string
+  visitor_name: string | null
+  visitor_phone: string | null
+  visitor_language: string
+  platform: string
+  status: string
+  last_message_at: string
+}
+
+export interface ChatMessage {
+  id: string
+  created_at: string
+  session_id: string
+  business_id: string
+  role: string
+  content: string
+  is_ai: boolean
+}
+
