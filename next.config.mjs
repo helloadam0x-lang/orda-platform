@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
-};
+  experimental: {
+    typedRoutes: false,
+  },
+}
 
-export default nextConfig;
+export default nextConfig

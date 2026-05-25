@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react'
 
-export function useLenis() {
+export function useSmoothScroll() {
   useEffect(() => {
-    let lenis: { raf: (time: number) => void; destroy: () => void } | null = null
+    let lenis: { raf: (t: number) => void; destroy: () => void } | null = null
     let rafId = 0
 
     async function init() {
@@ -14,17 +14,14 @@ export function useLenis() {
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
       })
-
       function raf(time: number) {
         lenis?.raf(time)
         rafId = requestAnimationFrame(raf)
       }
-
       rafId = requestAnimationFrame(raf)
     }
 
     init()
-
     return () => {
       cancelAnimationFrame(rafId)
       lenis?.destroy()

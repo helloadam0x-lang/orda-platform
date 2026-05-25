@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #08080C;
+  --surface: rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(255,255,255,0.14);
+  --text: #F0F0F4;
+  --muted: rgba(240,240,244,0.42);
+  --accent: #8729A0;
+  --accent-light: #C084FC;
+  --glow: rgba(135,41,160,0.28);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* hide default cursor globally — custom cursor handles it */
+*, *::before, *::after { cursor: none !important; }
+
+::selection { background: rgba(135,41,160,0.35); color: #fff; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #08080C; }
+::-webkit-scrollbar-thumb { background: rgba(135,41,160,0.4); border-radius: 2px; }
+
+/* Glass surface — extracted from glassmorphism mockup image */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 80px rgba(0,0,0,0.4);
+}
+
+/* Stronger glass variant for nav */
+.glass-nav {
+  background: rgba(8,8,12,0.72);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Glow border cards — extracted from Apple/Figma/Framer reference */
+.glow-card {
+  position: relative;
+}
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 50%, rgba(135,41,160,0.2) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Purple gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #C084FC 0%, #8729A0 60%, #C084FC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Clip-path reveal container */
+.clip-reveal { overflow: hidden; }
+.clip-reveal > * { display: block; }
+
+/* Noise grain overlay — extracted from Pills editorial image */
+.grain {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Primary CTA button shimmer */
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #8729A0, #6b1f85);
+  border: 1px solid rgba(192,132,252,0.25);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-cta::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 2.8s ease-in-out infinite;
+}
+.btn-cta:hover {
+  box-shadow: 0 0 40px rgba(135,41,160,0.55), 0 0 80px rgba(135,41,160,0.2);
+  transform: translateY(-2px);
+}
+
+/* Ghost button */
+.btn-ghost {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.25s ease;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+
+/* Section label pill */
+.label-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(135,41,160,0.12);
+  border: 1px solid rgba(135,41,160,0.25);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #C084FC;
+}
+
+/* Phone mockup frame */
+.phone-frame {
+  position: relative;
+  width: 220px;
+  height: 440px;
+  border-radius: 36px;
+  background: rgba(12,12,18,0.95);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.03), 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.15);
+  z-index: 10;
+}
+
+@keyframes shimmer {
+  0% { left: -120%; }
+  60%, 100% { left: 200%; }
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+@keyframes notification-drop {
+  0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cursor-trail {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2); }
+}
