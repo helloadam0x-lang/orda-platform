@@ -4,70 +4,79 @@ import { useEffect, useRef } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export default function CustomCursor() {
-  const cursorX = useMotionValue(-100)
-  const cursorY = useMotionValue(-100)
+  const ringX = useMotionValue(-100)
+  const ringY = useMotionValue(-100)
   const dotX = useMotionValue(-100)
   const dotY = useMotionValue(-100)
 
-  const springConfig = { damping: 24, stiffness: 200, mass: 0.6 }
-  const springX = useSpring(cursorX, springConfig)
-  const springY = useSpring(cursorY, springConfig)
+  const rX = useSpring(ringX, { stiffness: 400, damping: 28, mass: 0.5 })
+  const rY = useSpring(ringY, { stiffness: 400, damping: 28, mass: 0.5 })
+  const dX = useSpring(dotX, { stiffness: 600, damping: 35, mass: 0.2 })
+  const dY = useSpring(dotY, { stiffness: 600, damping: 35, mass: 0.2 })
 
-  const dotSpring = { damping: 50, stiffness: 500, mass: 0.2 }
-  const dotSpringX = useSpring(dotX, dotSpring)
-  const dotSpringY = useSpring(dotY, dotSpring)
-
-  const isHovering = useRef(false)
-  const outerRef = useRef<HTMLDivElement>(null)
+  const ringRef = useRef<HTMLDivElement>(null)
+  const isHover = useRef(false)
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 16)
-      cursorY.set(e.clientY - 16)
-      dotX.set(e.clientX - 3)
-      dotY.set(e.clientY - 3)
+      ringX.set(e.clientX - 5)
+      ringY.set(e.clientY - 5)
+      dotX.set(e.clientX - 2)
+      dotY.set(e.clientY - 2)
     }
-
     const over = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (target.closest('a, button, [data-cursor="hover"]')) {
-        isHovering.current = true
-        outerRef.current?.classList.add('scale-[2.2]', 'opacity-30')
-      } else {
-        isHovering.current = false
-        outerRef.current?.classList.remove('scale-[2.2]', 'opacity-30')
+      const el = e.target as HTMLElement
+      const hit = el.closest('a, button, [data-hover]')
+      if (hit && !isHover.current) {
+        isHover.current = true
+        if (ringRef.current) {
+          ringRef.current.style.width = '28px'
+          ringRef.current.style.height = '28px'
+          ringRef.current.style.marginLeft = '-9px'
+          ringRef.current.style.marginTop = '-9px'
+          ringRef.current.style.opacity = '0.25'
+          ringRef.current.style.background = 'rgba(212,168,83,0.6)'
+        }
+      } else if (!hit && isHover.current) {
+        isHover.current = false
+        if (ringRef.current) {
+          ringRef.current.style.width = '10px'
+          ringRef.current.style.height = '10px'
+          ringRef.current.style.marginLeft = '0px'
+          ringRef.current.style.marginTop = '0px'
+          ringRef.current.style.opacity = '0.7'
+          ringRef.current.style.background = 'rgba(239,239,239,0.8)'
+        }
       }
     }
-
     window.addEventListener('mousemove', move)
     window.addEventListener('mouseover', over)
     return () => {
       window.removeEventListener('mousemove', move)
       window.removeEventListener('mouseover', over)
     }
-  }, [cursorX, cursorY, dotX, dotY])
+  }, [ringX, ringY, dotX, dotY])
 
   return (
     <>
-      {/* Outer ring — spring lag */}
       <motion.div
-        ref={outerRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[9999] transition-transform duration-200"
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full"
         style={{
-          x: springX,
-          y: springY,
-          border: '1px solid rgba(192,132,252,0.5)',
-          backgroundColor: 'transparent',
-          mixBlendMode: 'normal',
+          x: rX, y: rY,
+          width: 10, height: 10,
+          background: 'rgba(239,239,239,0.8)',
+          opacity: 0.7,
+          transition: 'width 200ms cubic-bezier(0.23,1,0.32,1), height 200ms cubic-bezier(0.23,1,0.32,1), opacity 200ms, background 200ms',
         }}
       />
-      {/* Inner dot — instant */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full pointer-events-none z-[9999] bg-accent-light"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full"
         style={{
-          x: dotSpringX,
-          y: dotSpringY,
-          backgroundColor: '#C084FC',
+          x: dX, y: dY,
+          width: 4, height: 4,
+          background: '#D4A853',
+          opacity: 0.9,
         }}
       />
     </>

@@ -20,8 +20,12 @@ function PhoneConnect() {
   return (
     <div className="phone-frame mx-auto flex flex-col items-center justify-center gap-4 p-6">
       <div className="mt-8 text-center">
-        <div className="text-[10px] text-white/35 tracking-widest uppercase mb-3">Scan to Connect</div>
-        {/* QR Code placeholder */}
+        <div
+          className="font-body text-[10px] uppercase mb-3 tracking-widest"
+          style={{ color: 'rgba(239,239,239,0.3)' }}
+        >
+          Scan to Connect
+        </div>
         <div className="w-28 h-28 mx-auto rounded-xl bg-white p-2 flex items-center justify-center">
           <div className="w-full h-full grid grid-cols-7 gap-px">
             {QR_PATTERN.map((cell, i) => (
@@ -29,15 +33,18 @@ function PhoneConnect() {
             ))}
           </div>
         </div>
-        <div className="mt-4 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold flex items-center gap-1.5 w-fit mx-auto">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" style={{ animation: 'pulse-glow 2s ease-in-out infinite' }} />
+        <div
+          className="mt-4 px-3 py-1.5 rounded-full font-body text-[10px] font-semibold flex items-center gap-1.5 w-fit mx-auto"
+          style={{ background: 'rgba(37,211,102,0.12)', border: '1px solid rgba(37,211,102,0.25)', color: '#25D366' }}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#25D366]" style={{ animation: 'pulse-dot 2s ease-in-out infinite' }} />
           Live in 60 seconds
         </div>
       </div>
-      <div className="absolute bottom-12 left-0 right-0 px-4">
-        <div className="glass rounded-xl p-3 text-center border border-emerald-500/20">
-          <div className="text-[10px] text-white/50">WhatsApp connected</div>
-          <div className="text-[11px] font-semibold text-emerald-400 mt-0.5">+1 (555) 000-0000 ✓</div>
+      <div className="absolute bottom-10 left-0 right-0 px-4">
+        <div className="glass-surface rounded-xl p-3 text-center" style={{ border: '1px solid rgba(37,211,102,0.15)' }}>
+          <div className="font-body text-[10px]" style={{ color: 'var(--text-muted)' }}>WhatsApp connected</div>
+          <div className="font-body text-[11px] font-semibold mt-0.5" style={{ color: '#25D366' }}>+1 (555) 000-0000 ✓</div>
         </div>
       </div>
     </div>
@@ -46,32 +53,45 @@ function PhoneConnect() {
 
 function PhoneStore() {
   const products = [
-    { name: 'Air Jordan 1', price: '₦89,000', badge: 'Hot' },
-    { name: 'Nike Air Max', price: '₦64,000' },
-    { name: 'Adidas Yeezy', price: '₦120,000', badge: 'New' },
+    { name: 'Air Jordan 1', price: '₦89,000', hot: true },
+    { name: 'Nike Air Max', price: '₦64,000', hot: false },
+    { name: 'Adidas Yeezy', price: '₦120,000', hot: false },
   ]
   return (
     <div className="phone-frame mx-auto overflow-y-auto">
       <div className="mt-6 px-3">
-        <div className="text-[10px] text-white/40 tracking-widest uppercase text-center mb-1">Orda Store</div>
-        <div className="text-[13px] font-black text-white text-center mb-4">KickSpace Lagos</div>
+        <div className="font-body text-[10px] uppercase text-center mb-1 tracking-widest" style={{ color: 'var(--text-muted)' }}>
+          Orda Store
+        </div>
+        <div className="font-display text-[13px] font-bold text-center mb-4" style={{ color: 'var(--text-primary)' }}>
+          KickSpace Lagos
+        </div>
         <div className="space-y-2">
           {products.map((p) => (
-            <div key={p.name} className="glass rounded-xl p-3 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#8729A0]/30 to-[#C084FC]/20 flex-shrink-0" />
+            <div key={p.name} className="glass-surface rounded-xl p-3 flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-lg flex-shrink-0"
+                style={{ background: 'rgba(212,168,83,0.1)', border: '1px solid rgba(212,168,83,0.15)' }}
+              />
               <div className="flex-1 min-w-0">
-                <div className="text-[11px] font-semibold text-white truncate">{p.name}</div>
-                <div className="text-[10px] text-white/45 mt-0.5">{p.price}</div>
+                <div className="font-body text-[11px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{p.name}</div>
+                <div className="font-body text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{p.price}</div>
               </div>
-              {p.badge && (
-                <span className="text-[8px] font-bold px-1.5 py-0.5 rounded bg-[#8729A0]/30 text-[#C084FC] border border-[#8729A0]/20">
-                  {p.badge}
+              {p.hot && (
+                <span
+                  className="font-body text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
+                  style={{ background: 'rgba(212,168,83,0.1)', color: 'var(--accent)', border: '1px solid rgba(212,168,83,0.2)' }}
+                >
+                  Hot
                 </span>
               )}
             </div>
           ))}
         </div>
-        <button className="btn-cta w-full mt-4 py-3 rounded-xl text-[11px] font-semibold text-white">
+        <button
+          className="btn-primary w-full mt-4 py-3 rounded-xl font-body text-[11px]"
+          style={{ borderRadius: '12px' }}
+        >
           Share Store Link
         </button>
       </div>
@@ -79,7 +99,7 @@ function PhoneStore() {
   )
 }
 
-function PhoneAI() {
+function PhoneGrow() {
   const msgs = [
     { from: 'c', text: 'Do you have size 42?' },
     { from: 'ai', text: 'Yes! 2 pairs left. Reserve?' },
@@ -91,25 +111,40 @@ function PhoneAI() {
       <div className="mt-6 px-3 flex-1 space-y-2">
         {msgs.map((m, i) => (
           <div key={i} className={`flex ${m.from === 'c' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`px-2.5 py-1.5 rounded-xl text-[10px] max-w-[80%]
-              ${m.from === 'c' ? 'bg-[#8729A0]/30 text-white rounded-br-sm' : 'bg-white/8 text-white rounded-bl-sm'}`}>
+            <div
+              className="px-2.5 py-1.5 font-body text-[10px] max-w-[80%]"
+              style={{
+                background: m.from === 'c' ? 'rgba(255,255,255,0.07)' : 'rgba(212,168,83,0.08)',
+                border: `1px solid ${m.from === 'c' ? 'rgba(255,255,255,0.07)' : 'rgba(212,168,83,0.15)'}`,
+                borderRadius: m.from === 'c' ? '10px 10px 2px 10px' : '10px 10px 10px 2px',
+                color: 'var(--text-primary)',
+              }}
+            >
               {m.text}
             </div>
           </div>
         ))}
       </div>
-      {/* Notification drop */}
-      <div className="absolute bottom-16 left-3 right-3 glass rounded-xl p-3 border border-emerald-500/25"
-        style={{ animation: 'notification-drop 0.4s ease-out 2s both' }}>
+      <div
+        className="absolute bottom-14 left-3 right-3 glass-surface rounded-xl p-3"
+        style={{ border: '1px solid rgba(37,211,102,0.2)', animation: 'notification-drop 0.4s cubic-bezier(0.23,1,0.32,1) 2s both' }}
+      >
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-emerald-400 stroke-2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <div
+            className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+            style={{ background: 'rgba(37,211,102,0.1)' }}
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-[#25D366] stroke-2">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[9px] text-white/40 font-medium">New Order #1042</div>
-            <div className="text-[10px] font-semibold text-white truncate">Air Jordan 1 × 1 — ₦89,000</div>
+            <div className="font-body text-[9px]" style={{ color: 'var(--text-muted)' }}>New Order #1042</div>
+            <div className="font-body text-[10px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+              Air Jordan 1 × 1 — ₦89,000
+            </div>
           </div>
-          <span className="text-[8px] text-emerald-400 font-semibold">PAID</span>
+          <span className="font-body text-[8px] font-bold" style={{ color: '#25D366' }}>PAID</span>
         </div>
       </div>
     </div>
@@ -118,22 +153,22 @@ function PhoneAI() {
 
 const chapters = [
   {
-    num: '01',
+    num: '01', label: 'STEP 01',
     headline: 'Connect in 60 seconds.',
-    body: 'Scan one QR code. Your WhatsApp number is live. No API keys. No developer needed.',
+    body: 'Scan one QR code. Your WhatsApp is live. No API keys. No developer needed.',
     phone: <PhoneConnect />,
   },
   {
-    num: '02',
+    num: '02', label: 'STEP 02',
     headline: 'Build your store. Share one link.',
-    body: 'Add products, set prices, and publish your storefront in minutes. Share the link on TikTok, WhatsApp, Instagram — anywhere.',
+    body: 'Add products, set prices, publish instantly. Share your link everywhere.',
     phone: <PhoneStore />,
   },
   {
-    num: '03',
+    num: '03', label: 'STEP 03',
     headline: 'Your AI never stops working.',
-    body: 'Every message answered instantly. Every order captured. Shopify-style notifications fire to you and your staff automatically.',
-    phone: <PhoneAI />,
+    body: 'Every message answered. Every order captured. Every notification sent. Automatically.',
+    phone: <PhoneGrow />,
   },
 ]
 
@@ -142,78 +177,114 @@ export default function Story() {
   const stickyRef = useRef<HTMLDivElement>(null)
   const chaptersRef = useRef<HTMLDivElement[]>([])
   const phonesRef = useRef<HTMLDivElement[]>([])
+  const numsRef = useRef<HTMLDivElement[]>([])
+  const dotsRef = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const totalChapters = chapters.length
-
+      const total = chapters.length
       ScrollTrigger.create({
         trigger: wrapperRef.current,
         start: 'top top',
-        end: `+=${totalChapters * 100}%`,
+        end: `+=${total * 100}%`,
         pin: stickyRef.current,
         anticipatePin: 1,
         onUpdate: (self) => {
           const progress = self.progress
-          const chapterIndex = Math.min(Math.floor(progress * totalChapters), totalChapters - 1)
+          const idx = Math.min(Math.floor(progress * total), total - 1)
+
           chaptersRef.current.forEach((el, i) => {
             if (!el) return
-            if (i === chapterIndex) {
-              gsap.to(el, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' })
-            } else if (i < chapterIndex) {
-              gsap.to(el, { opacity: 0, y: -40, duration: 0.3, ease: 'power2.in' })
-            } else {
-              gsap.to(el, { opacity: 0, y: 40, duration: 0.3 })
-            }
+            if (i === idx) gsap.to(el, { opacity: 1, y: 0, duration: 0.4, ease: 'cubic-bezier(0.23,1,0.32,1)' })
+            else if (i < idx) gsap.to(el, { opacity: 0, y: -40, duration: 0.25, ease: 'power2.in' })
+            else gsap.to(el, { opacity: 0, y: 40, duration: 0.25 })
           })
 
           phonesRef.current.forEach((el, i) => {
             if (!el) return
-            if (i === chapterIndex) {
-              gsap.to(el, { opacity: 1, scale: 1, rotationY: 0, duration: 0.5, ease: 'power2.out' })
-            } else {
-              gsap.to(el, { opacity: 0, scale: 0.88, rotationY: i < chapterIndex ? -20 : 20, duration: 0.35 })
-            }
+            if (i === idx) gsap.to(el, { opacity: 1, scale: 1, rotationY: 0, duration: 0.5, ease: 'cubic-bezier(0.23,1,0.32,1)' })
+            else gsap.to(el, { opacity: 0, scale: 0.88, rotationY: i < idx ? -20 : 20, duration: 0.3 })
+          })
+
+          numsRef.current.forEach((el, i) => {
+            if (!el) return
+            gsap.to(el, { opacity: i === idx ? 1 : 0, duration: 0.3 })
+          })
+
+          dotsRef.current.forEach((el, i) => {
+            if (!el) return
+            el.style.background = i === idx ? 'var(--accent)' : 'rgba(255,255,255,0.15)'
           })
         },
       })
     }, wrapperRef)
-
     return () => ctx.revert()
   }, [])
 
   return (
     <div ref={wrapperRef} id="how-it-works" style={{ height: `${(chapters.length + 1) * 100}vh` }} className="relative">
-      <div ref={stickyRef} className="h-screen flex items-center">
-        <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div ref={stickyRef} className="h-screen flex items-center" style={{ background: 'var(--bg-void)' }}>
+        <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative">
+
+          {/* Chapter numbers — enormous architectural background */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {chapters.map((ch, i) => (
+              <div
+                key={i}
+                ref={el => { if (el) numsRef.current[i] = el }}
+                className="absolute font-display font-[900] select-none"
+                style={{
+                  fontSize: '30vw',
+                  lineHeight: 1,
+                  letterSpacing: '-0.06em',
+                  color: 'rgba(255,255,255,0.018)',
+                  top: '50%',
+                  left: '-2vw',
+                  transform: 'translateY(-50%)',
+                  opacity: i === 0 ? 1 : 0,
+                }}
+              >
+                {ch.num}
+              </div>
+            ))}
+          </div>
+
           {/* Left — text */}
-          <div className="relative h-64">
-            <div className="label-pill mb-8">How It Works</div>
+          <div className="relative" style={{ height: 280 }}>
+            <div className="label-pill mb-8" style={{ position: 'relative', zIndex: 2 }}>How It Works</div>
             {chapters.map((ch, i) => (
               <div
                 key={i}
                 ref={el => { if (el) chaptersRef.current[i] = el }}
-                className="absolute top-10 left-0 right-0"
+                className="absolute top-12 left-0 right-0"
                 style={{ opacity: i === 0 ? 1 : 0, transform: i === 0 ? 'none' : 'translateY(40px)' }}
               >
-                <span className="text-[clamp(72px,12vw,140px)] font-black leading-none text-white/[0.04] absolute -top-6 -left-2 select-none pointer-events-none">
-                  {ch.num}
-                </span>
-                <div className="relative">
-                  <h2 className="text-[clamp(28px,3.5vw,44px)] font-black text-white leading-tight tracking-tight mb-4">
-                    {ch.headline}
-                  </h2>
-                  <p className="text-[16px] text-white/45 leading-relaxed max-w-md">{ch.body}</p>
+                <div
+                  className="font-body text-[10px] uppercase tracking-[0.14em] mb-4 font-medium"
+                  style={{ color: 'var(--accent)' }}
+                >
+                  {ch.label}
                 </div>
+                <h2
+                  className="font-display font-[900] leading-[0.9] tracking-[-0.04em] mb-5"
+                  style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: 'var(--text-primary)' }}
+                >
+                  {ch.headline}
+                </h2>
+                <p className="font-body text-[16px] leading-relaxed max-w-md" style={{ color: 'var(--text-secondary)' }}>
+                  {ch.body}
+                </p>
               </div>
             ))}
           </div>
 
           {/* Right — phones */}
-          <div className="relative h-[480px] flex items-center justify-center">
+          <div className="relative flex items-center justify-center" style={{ height: 480 }}>
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-80 h-80 rounded-full"
-                style={{ background: 'radial-gradient(ellipse, rgba(135,41,160,0.15) 0%, transparent 70%)' }} />
+              <div className="w-80 h-80 rounded-full" style={{
+                background: 'radial-gradient(ellipse, rgba(212,168,83,0.08) 0%, transparent 70%)',
+                filter: 'blur(40px)',
+              }} />
             </div>
             {chapters.map((ch, i) => (
               <div
@@ -228,12 +299,15 @@ export default function Story() {
           </div>
         </div>
 
-        {/* Chapter indicators */}
+        {/* Chapter dots */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3">
           {chapters.map((_, i) => (
-            <div key={i} className="w-1 h-8 rounded-full bg-white/10 overflow-hidden">
-              <div className="w-full h-0 bg-[#C084FC] rounded-full" />
-            </div>
+            <div
+              key={i}
+              ref={el => { dotsRef.current[i] = el }}
+              className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
+              style={{ background: i === 0 ? 'var(--accent)' : 'rgba(255,255,255,0.15)' }}
+            />
           ))}
         </div>
       </div>
