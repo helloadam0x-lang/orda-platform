@@ -1,191 +1,144 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useMagneticCursor } from '@/hooks/useMagneticCursor'
-import { Check } from 'lucide-react'
-import { ShimmerBorder } from '@/components/ui/gradient-border'
-
-gsap.registerPlugin(ScrollTrigger)
+import { BorderBeam } from '@/components/ui/border-beam'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
+import { BlurFade } from '@/components/ui/blur-fade'
 
 const plans = [
   {
-    name: 'STARTER',
+    name: 'Starter',
     price: '$19',
     period: '/month',
-    trial: '7 day free trial included',
-    popular: false,
+    trial: '7 day free trial',
     features: [
-      '2,000 messages / month',
-      'WhatsApp Business',
-      'AI auto-replies',
+      '2,000 messages/month',
+      'WhatsApp AI agent',
       'Store builder',
       'Order management',
       'Basic analytics',
+      'Email support',
     ],
+    cta: 'Start Free Trial',
+    featured: false,
   },
   {
-    name: 'PRO',
+    name: 'Pro',
     price: '$49',
     period: '/month',
-    trial: '7 day free trial included',
-    popular: true,
+    trial: '7 day free trial',
+    badge: 'Most Popular',
     features: [
       'Unlimited messages',
-      'WhatsApp Business',
+      'WhatsApp AI agent',
       'Custom AI personality',
       'Payments inside chat',
-      'Voice messages understood',
+      'Voice messages',
       'Delivery management',
-      'Staff routing',
+      'Unlimited staff',
       'Weekly reports',
-      'Full analytics',
       'Priority support',
     ],
+    cta: 'Start Free Trial',
+    featured: true,
   },
 ]
 
-function PlanCardInner({ plan }: { plan: typeof plans[0] }) {
-  const ref = useMagneticCursor<HTMLDivElement>(0)
-
-  return (
-    <div
-      ref={ref}
-      className="price-card p-8 flex flex-col gap-6 relative h-full"
-      style={{ opacity: 0, flex: 1 }}
-    >
-      {plan.popular && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-          <span
-            className="font-body px-4 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest"
-            style={{ border: '1px solid rgba(212,168,83,0.4)', color: 'var(--accent)', background: 'rgba(212,168,83,0.08)' }}
-          >
-            Most Popular
-          </span>
-        </div>
-      )}
-
-      <div>
-        <div
-          className="font-body text-[11px] font-medium uppercase tracking-[0.18em] mb-4"
-          style={{ color: 'var(--text-muted)' }}
-        >
-          {plan.name}
-        </div>
-        <div className="flex items-end gap-1.5 mb-2">
-          <span
-            className="font-display font-[900] leading-none tracking-[-0.04em]"
-            style={{ fontSize: 56, color: 'var(--text-primary)' }}
-          >
-            {plan.price}
-          </span>
-          <span className="font-body text-[14px] pb-2" style={{ color: 'var(--text-muted)' }}>
-            {plan.period}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5 font-body text-[12px]" style={{ color: 'var(--accent)' }}>
-          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--accent)' }} />
-          {plan.trial}
-        </div>
-      </div>
-
-      <div className="h-px" style={{ background: 'var(--border-subtle)' }} />
-
-      <ul className="space-y-2.5 flex-1">
-        {plan.features.map(f => (
-          <li key={f} className="flex items-start gap-2.5 font-body text-[13px]" style={{ color: 'var(--text-secondary)' }}>
-            <Check size={14} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--accent)' }} />
-            {f}
-          </li>
-        ))}
-      </ul>
-
-      <a
-        href="#"
-        className={plan.popular ? 'btn-primary w-full py-4 text-[14px] justify-center' : 'btn-secondary w-full py-4 text-[14px] justify-center'}
-        style={{ borderRadius: '12px' }}
-      >
-        Get Started Free →
-      </a>
-    </div>
-  )
-}
-
-function PlanCard({ plan }: { plan: typeof plans[0] }) {
-  if (plan.popular) {
-    return (
-      <div className="flex-1" style={{ transform: 'scale(1.03)' }}>
-        <ShimmerBorder borderRadius={24} className="h-full">
-          <PlanCardInner plan={plan} />
-        </ShimmerBorder>
-      </div>
-    )
-  }
-
-  return (
-    <div
-      className="flex-1 glass-surface rounded-3xl"
-      style={{ boxShadow: '0 40px 80px rgba(0,0,0,0.4)' }}
-    >
-      <PlanCardInner plan={plan} />
-    </div>
-  )
-}
-
 export default function Pricing() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!sectionRef.current) return
-    gsap.fromTo(sectionRef.current.querySelector('.header'),
-      { opacity: 0, y: 30, scale: 0.97 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'cubic-bezier(0.23,1,0.32,1)',
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 82%' } }
-    )
-    sectionRef.current.querySelectorAll('.price-card').forEach((card, i) => {
-      gsap.fromTo(card,
-        { opacity: 0, y: 60, scale: 0.95 },
-        {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.75, ease: 'cubic-bezier(0.23,1,0.32,1)',
-          delay: i * 0.1,
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
-        }
-      )
-    })
-  }, [])
-
   return (
-    <section ref={sectionRef} id="pricing" className="py-32 relative overflow-hidden">
-      <span className="watermark" style={{ fontSize: 'clamp(80px,16vw,200px)', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-        PRICING
-      </span>
+    <section style={{ background: '#050507', padding: '120px 0' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
+        <BlurFade delay={0.1}>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 900,
+              fontSize: 'clamp(36px, 5vw, 64px)',
+              letterSpacing: '-0.03em',
+              color: '#EFEFEF',
+            }}>
+              Simple. Honest. Pricing.
+            </h2>
+            <p style={{ marginTop: '16px', color: 'rgba(239,239,239,0.4)', fontSize: '16px' }}>
+              Start free for 7 days. No credit card required.
+            </p>
+          </div>
+        </BlurFade>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="header text-center mb-16" style={{ opacity: 0 }}>
-          <div className="label-pill mx-auto mb-6">Pricing</div>
-          <h2
-            className="font-display font-[900] leading-[0.88] tracking-[-0.04em]"
-            style={{ fontSize: 'clamp(40px,5vw,64px)', color: 'var(--text-primary)' }}
-          >
-            Simple. Honest.{' '}
-            <span style={{ color: 'var(--accent)' }}>Pricing.</span>
-          </h2>
-          <p className="font-body text-[15px] mt-4" style={{ color: 'var(--text-muted)' }}>
-            Start free. No credit card required.
-          </p>
-        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          {plans.map((plan, i) => (
+            <BlurFade key={i} delay={0.15 + i * 0.1}>
+              <div style={{
+                position: 'relative',
+                borderRadius: '20px',
+                padding: '32px',
+                background: plan.featured ? 'rgba(212,168,83,0.06)' : 'rgba(255,255,255,0.02)',
+                border: plan.featured ? '1px solid rgba(212,168,83,0.3)' : '1px solid rgba(255,255,255,0.07)',
+                transform: plan.featured ? 'scale(1.03)' : 'scale(1)',
+                boxShadow: plan.featured ? '0 0 60px rgba(212,168,83,0.08)' : 'none',
+              }}>
+                {plan.featured && <BorderBeam size={300} duration={6} colorFrom='#D4A853' colorTo='transparent' />}
+                {plan.badge && (
+                  <span style={{
+                    position: 'absolute', top: '-12px', left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: '#D4A853',
+                    color: '#050507',
+                    fontSize: '11px', fontWeight: 700,
+                    letterSpacing: '0.06em', textTransform: 'uppercase',
+                    padding: '4px 14px', borderRadius: '100px',
+                    whiteSpace: 'nowrap',
+                  }}>{plan.badge}</span>
+                )}
 
-        <div className="flex flex-col lg:flex-row gap-5 justify-center items-stretch max-w-[860px] mx-auto">
-          {plans.map((plan) => (
-            <PlanCard key={plan.name} plan={plan} />
+                <div style={{ marginBottom: '8px' }}>
+                  <span style={{ fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(239,239,239,0.35)' }}>
+                    {plan.name}
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
+                  <span style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontWeight: 900, fontSize: '52px',
+                    color: plan.featured ? '#D4A853' : '#EFEFEF',
+                    letterSpacing: '-0.03em', lineHeight: 1,
+                  }}>{plan.price}</span>
+                  <span style={{ color: 'rgba(239,239,239,0.35)', fontSize: '14px' }}>{plan.period}</span>
+                </div>
+
+                <p style={{ fontSize: '11px', color: 'rgba(212,168,83,0.6)', marginBottom: '24px' }}>
+                  {plan.trial}
+                </p>
+
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', marginBottom: '24px' }}/>
+
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {plan.features.map((f, j) => (
+                    <li key={j} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'rgba(239,239,239,0.6)' }}>
+                      <span style={{ color: '#D4A853', fontSize: '12px' }}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                <ShimmerButton
+                  shimmerColor={plan.featured ? '#D4A853' : 'rgba(255,255,255,0.3)'}
+                  background={plan.featured ? 'rgba(212,168,83,0.15)' : 'rgba(255,255,255,0.05)'}
+                  borderRadius='10px'
+                  className={`w-full py-3 text-sm font-semibold ${plan.featured ? 'text-[#D4A853] border border-[rgba(212,168,83,0.4)]' : 'text-white/60 border border-white/10'}`}
+                >
+                  {plan.cta}
+                </ShimmerButton>
+              </div>
+            </BlurFade>
           ))}
         </div>
 
-        <p className="font-body text-center text-[12px] mt-8" style={{ color: 'var(--text-muted)' }}>
-          No setup fee · Cancel anytime · Instant activation
-        </p>
+        <BlurFade delay={0.4}>
+          <p style={{ textAlign: 'center', marginTop: '28px', fontSize: '12px', color: 'rgba(239,239,239,0.2)' }}>
+            No setup fee · Cancel anytime · Instant activation
+          </p>
+        </BlurFade>
       </div>
     </section>
   )

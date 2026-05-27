@@ -1,61 +1,74 @@
-'use client'
+"use client"
 
-import { useEffect, useRef, useState } from 'react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { gsap } from 'gsap'
+import { useEffect, useRef, type ComponentPropsWithoutRef } from "react"
+import { useInView, useMotionValue, useSpring } from "motion/react"
 
-gsap.registerPlugin(ScrollTrigger)
+import { cn } from "@/lib/utils"
 
-interface NumberTickerProps {
+interface NumberTickerProps extends ComponentPropsWithoutRef<"span"> {
   value: number
-  suffix?: string
-  duration?: number
-  className?: string
-  style?: React.CSSProperties
+  startValue?: number
+  direction?: "up" | "down"
+  delay?: number
+  decimalPlaces?: number
 }
 
 export function NumberTicker({
   value,
-  suffix = '',
-  duration = 2.2,
-  className = '',
-  style,
+  startValue = 0,
+  direction = "up",
+  delay = 0,
+  className,
+  decimalPlaces = 0,
+  ...props
 }: NumberTickerProps) {
-  const [current, setCurrent] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
+  const motionValue = useMotionValue(direction === "down" ? value : startValue)
+  const springValue = useSpring(motionValue, {
+    damping: 60,
+    stiffness: 100,
+  })
+  const isInView = useInView(ref, { once: true, margin: "0px" })
 
   useEffect(() => {
-    if (!ref.current) return
-    const st = ScrollTrigger.create({
-      trigger: ref.current,
-      start: 'top 88%',
-      once: true,
-      onEnter: () => {
-        const start = performance.now()
-        const dur = duration * 1000
-        const tick = (now: number) => {
-          const p = Math.min((now - start) / dur, 1)
-          const ease = 1 - Math.pow(1 - p, 4)
-          setCurrent(Math.round(ease * value))
-          if (p < 1) requestAnimationFrame(tick)
-          else setCurrent(value)
-        }
-        requestAnimationFrame(tick)
-      },
-    })
-    return () => st.kill()
-  }, [value, duration])
+    let timer: ReturnType<typeof setTimeout> | null = null
 
-  const display =
-    value >= 1_000_000
-      ? `${Math.round(current / 1_000_000)}M`
-      : value >= 1_000
-      ? current.toLocaleString()
-      : String(current)
+    if (isInView) {
+      timer = setTimeout(() => {
+        motionValue.set(direction === "down" ? startValue : value)
+      }, delay * 1000)
+    }
+
+    return () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+    }
+  }, [motionValue, isInView, delay, value, direction, startValue])
+
+  useEffect(
+    () =>
+      springValue.on("change", (latest) => {
+        if (ref.current) {
+          ref.current.textContent = Intl.NumberFormat("en-US", {
+            minimumFractionDigits: decimalPlaces,
+            maximumFractionDigits: decimalPlaces,
+          }).format(Number(latest.toFixed(decimalPlaces)))
+        }
+      }),
+    [springValue, decimalPlaces]
+  )
 
   return (
-    <span ref={ref} className={`tabular-nums ${className}`} style={style}>
-      {display}{suffix}
+    <span
+      ref={ref}
+      className={cn(
+        "inline-block tracking-wider text-black tabular-nums dark:text-white",
+        className
+      )}
+      {...props}
+    >
+      {startValue}
     </span>
   )
 }
