@@ -1,8 +1,10 @@
 'use client'
 
+import { OrdaLogo } from '@/components/ui/OrdaLogo'
+
 export default function Footer() {
   const cols = [
-    { label: 'PRODUCT', links: ['Features', 'Pricing', 'How It Works', 'Integrations', 'Store Builder', 'Payments'] },
+    { label: 'PRODUCT', links: ['Features', 'Pricing', 'How It Works', 'Store Builder', 'Payments', 'WhatsApp'] },
     { label: 'COMPANY', links: ['About', 'Blog', 'Careers', 'Press', 'Partners', 'Contact'] },
     { label: 'SUPPORT', links: ['Help Center', 'Documentation', 'API Reference', 'Status', 'Privacy Policy', 'Terms'] },
   ]
@@ -17,17 +19,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="flex flex-col gap-5">
-            <span
-              className="font-display text-[15px] font-bold tracking-[0.1em] uppercase"
-              style={{ color: 'var(--text-primary)' }}
-            >
-              ORDA
-            </span>
+            <OrdaLogo size="md" />
             <p className="font-body text-[13px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
               Every business. Always on.
             </p>
             <p className="font-body text-[12px] leading-relaxed" style={{ color: 'rgba(239,239,239,0.18)' }}>
-              The universal AI platform for businesses worldwide. Connect WhatsApp. Run everything.
+              The AI platform for businesses worldwide. Connect WhatsApp. Run everything.
             </p>
           </div>
 
@@ -45,8 +42,11 @@ export default function Footer() {
                   <li key={l}>
                     <a
                       href="#"
-                      className="font-body text-[13px] transition-colors duration-[150ms]"
-                      style={{ color: 'rgba(239,239,239,0.22)' }}
+                      className="font-body text-[13px]"
+                      style={{
+                        color: 'rgba(239,239,239,0.22)',
+                        transition: 'color 150ms cubic-bezier(0.23,1,0.32,1)',
+                      }}
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(239,239,239,0.55)' }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(239,239,239,0.22)' }}
                     >

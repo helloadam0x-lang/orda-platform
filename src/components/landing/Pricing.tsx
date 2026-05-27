@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useMagneticCursor } from '@/hooks/useMagneticCursor'
 import { Check } from 'lucide-react'
+import { ShimmerBorder } from '@/components/ui/gradient-border'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -17,7 +18,7 @@ const plans = [
     popular: false,
     features: [
       '2,000 messages / month',
-      'WhatsApp + 2 platforms',
+      'WhatsApp Business',
       'AI auto-replies',
       'Store builder',
       'Order management',
@@ -32,10 +33,10 @@ const plans = [
     popular: true,
     features: [
       'Unlimited messages',
-      'All platforms',
+      'WhatsApp Business',
       'Custom AI personality',
       'Payments inside chat',
-      'Voice messages',
+      'Voice messages understood',
       'Delivery management',
       'Staff routing',
       'Weekly reports',
@@ -45,25 +46,17 @@ const plans = [
   },
 ]
 
-function PlanCard({ plan, isRight }: { plan: typeof plans[0]; isRight: boolean }) {
+function PlanCardInner({ plan }: { plan: typeof plans[0] }) {
   const ref = useMagneticCursor<HTMLDivElement>(0)
 
   return (
     <div
       ref={ref}
-      className="price-card glass-surface rounded-3xl p-8 flex flex-col gap-6 relative"
-      style={{
-        opacity: 0,
-        flex: 1,
-        ...(plan.popular ? {
-          border: '1px solid rgba(212,168,83,0.3)',
-          boxShadow: '0 0 80px rgba(212,168,83,0.08), inset 0 1px 0 rgba(212,168,83,0.15), 0 60px 120px rgba(0,0,0,0.6)',
-          transform: 'scale(1.03)',
-        } : {}),
-      }}
+      className="price-card p-8 flex flex-col gap-6 relative h-full"
+      style={{ opacity: 0, flex: 1 }}
     >
       {plan.popular && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
           <span
             className="font-body px-4 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest"
             style={{ border: '1px solid rgba(212,168,83,0.4)', color: 'var(--accent)', background: 'rgba(212,168,83,0.08)' }}
@@ -119,6 +112,27 @@ function PlanCard({ plan, isRight }: { plan: typeof plans[0]; isRight: boolean }
   )
 }
 
+function PlanCard({ plan }: { plan: typeof plans[0] }) {
+  if (plan.popular) {
+    return (
+      <div className="flex-1" style={{ transform: 'scale(1.03)' }}>
+        <ShimmerBorder borderRadius={24} className="h-full">
+          <PlanCardInner plan={plan} />
+        </ShimmerBorder>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="flex-1 glass-surface rounded-3xl"
+      style={{ boxShadow: '0 40px 80px rgba(0,0,0,0.4)' }}
+    >
+      <PlanCardInner plan={plan} />
+    </div>
+  )
+}
+
 export default function Pricing() {
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -133,7 +147,7 @@ export default function Pricing() {
       gsap.fromTo(card,
         { opacity: 0, y: 60, scale: 0.95 },
         {
-          opacity: 1, y: 0, scale: i === 1 ? 1.03 : 1,
+          opacity: 1, y: 0, scale: 1,
           duration: 0.75, ease: 'cubic-bezier(0.23,1,0.32,1)',
           delay: i * 0.1,
           scrollTrigger: { trigger: sectionRef.current, start: 'top 76%' },
@@ -164,8 +178,8 @@ export default function Pricing() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-5 justify-center items-stretch max-w-[860px] mx-auto">
-          {plans.map((plan, i) => (
-            <PlanCard key={plan.name} plan={plan} isRight={i === 1} />
+          {plans.map((plan) => (
+            <PlanCard key={plan.name} plan={plan} />
           ))}
         </div>
 

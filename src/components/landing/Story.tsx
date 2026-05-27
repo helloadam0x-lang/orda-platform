@@ -53,9 +53,9 @@ function PhoneConnect() {
 
 function PhoneStore() {
   const products = [
-    { name: 'Air Jordan 1', price: '₦89,000', hot: true },
-    { name: 'Nike Air Max', price: '₦64,000', hot: false },
-    { name: 'Adidas Yeezy', price: '₦120,000', hot: false },
+    { name: 'Black Bomber Jacket', price: '$89', hot: true },
+    { name: 'Premium Hoodie', price: '$64', hot: false },
+    { name: 'Classic Sneakers', price: '$120', hot: false },
   ]
   return (
     <div className="phone-frame mx-auto overflow-y-auto">
@@ -64,7 +64,7 @@ function PhoneStore() {
           Orda Store
         </div>
         <div className="font-display text-[13px] font-bold text-center mb-4" style={{ color: 'var(--text-primary)' }}>
-          KickSpace Lagos
+          My Store
         </div>
         <div className="space-y-2">
           {products.map((p) => (
@@ -89,7 +89,7 @@ function PhoneStore() {
           ))}
         </div>
         <button
-          className="btn-primary w-full mt-4 py-3 rounded-xl font-body text-[11px]"
+          className="btn-primary w-full mt-4 py-3 font-body text-[11px]"
           style={{ borderRadius: '12px' }}
         >
           Share Store Link
@@ -101,10 +101,10 @@ function PhoneStore() {
 
 function PhoneGrow() {
   const msgs = [
-    { from: 'c', text: 'Do you have size 42?' },
-    { from: 'ai', text: 'Yes! 2 pairs left. Reserve?' },
-    { from: 'c', text: 'Yes!' },
-    { from: 'ai', text: 'Reserved ✓ Pay link sent' },
+    { from: 'c', text: 'Hi, is the black jacket still available?' },
+    { from: 'ai', text: 'Yes, we have 3 left. Want me to reserve one?' },
+    { from: 'c', text: 'Please yes' },
+    { from: 'ai', text: 'Reserved. Payment link sent ✓' },
   ]
   return (
     <div className="phone-frame mx-auto flex flex-col">
@@ -135,13 +135,15 @@ function PhoneGrow() {
             style={{ background: 'rgba(37,211,102,0.1)' }}
           >
             <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-[#25D366] stroke-2">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
             </svg>
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-body text-[9px]" style={{ color: 'var(--text-muted)' }}>New Order #1042</div>
             <div className="font-body text-[10px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
-              Air Jordan 1 × 1 — ₦89,000
+              Black Bomber Jacket × 1 — $89
             </div>
           </div>
           <span className="font-body text-[8px] font-bold" style={{ color: '#25D366' }}>PAID</span>
@@ -154,20 +156,20 @@ function PhoneGrow() {
 const chapters = [
   {
     num: '01', label: 'STEP 01',
-    headline: 'Connect in 60 seconds.',
-    body: 'Scan one QR code. Your WhatsApp is live. No API keys. No developer needed.',
+    headline: 'Connect Your WhatsApp.',
+    body: 'Scan one QR code. Your WhatsApp Business number goes live in 60 seconds. No API keys. No developer needed.',
     phone: <PhoneConnect />,
   },
   {
     num: '02', label: 'STEP 02',
-    headline: 'Build your store. Share one link.',
-    body: 'Add products, set prices, publish instantly. Share your link everywhere.',
+    headline: 'Add Your Products.',
+    body: 'Tell Orda what you sell. Set prices. The AI knows your entire catalog instantly. Share your link everywhere.',
     phone: <PhoneStore />,
   },
   {
     num: '03', label: 'STEP 03',
-    headline: 'Your AI never stops working.',
-    body: 'Every message answered. Every order captured. Every notification sent. Automatically.',
+    headline: 'Watch It Work.',
+    body: 'Every message answered. Every order captured. Every payment collected. Automatically.',
     phone: <PhoneGrow />,
   },
 ]
@@ -196,7 +198,7 @@ export default function Story() {
           chaptersRef.current.forEach((el, i) => {
             if (!el) return
             if (i === idx) gsap.to(el, { opacity: 1, y: 0, duration: 0.4, ease: 'cubic-bezier(0.23,1,0.32,1)' })
-            else if (i < idx) gsap.to(el, { opacity: 0, y: -40, duration: 0.25, ease: 'power2.in' })
+            else if (i < idx) gsap.to(el, { opacity: 0, y: -40, duration: 0.25, ease: 'cubic-bezier(0.23,1,0.32,1)' })
             else gsap.to(el, { opacity: 0, y: 40, duration: 0.25 })
           })
 
@@ -305,8 +307,11 @@ export default function Story() {
             <div
               key={i}
               ref={el => { dotsRef.current[i] = el }}
-              className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
-              style={{ background: i === 0 ? 'var(--accent)' : 'rgba(255,255,255,0.15)' }}
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                background: i === 0 ? 'var(--accent)' : 'rgba(255,255,255,0.15)',
+                transition: 'background 300ms cubic-bezier(0.23,1,0.32,1)',
+              }}
             />
           ))}
         </div>

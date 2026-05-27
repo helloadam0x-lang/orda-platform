@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useMagneticCursor } from '@/hooks/useMagneticCursor'
+import { OrdaLogo } from '@/components/ui/OrdaLogo'
 
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null)
@@ -23,12 +24,7 @@ export default function Navbar() {
       style={{ opacity: 0 }}
     >
       <div className="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
-        <span
-          className="font-display text-[16px] font-bold tracking-[0.1em] uppercase"
-          style={{ color: 'var(--text-primary)' }}
-        >
-          ORDA
-        </span>
+        <OrdaLogo size="md" />
 
         <div className="hidden md:flex items-center gap-8">
           {[
@@ -40,8 +36,11 @@ export default function Navbar() {
             <a
               key={label}
               href={href}
-              className="font-body text-[13px] font-normal lowercase tracking-[0.01em] transition-colors duration-[150ms]"
-              style={{ color: 'var(--text-muted)' }}
+              className="font-body text-[13px] font-normal lowercase tracking-[0.01em]"
+              style={{
+                color: 'var(--text-muted)',
+                transition: 'color 150ms cubic-bezier(0.23,1,0.32,1)',
+              }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)' }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
             >
@@ -53,8 +52,11 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <a
             href="#"
-            className="hidden sm:block font-body text-[13px] px-4 py-2 transition-colors duration-[150ms]"
-            style={{ color: 'var(--text-muted)' }}
+            className="hidden sm:block font-body text-[13px] px-4 py-2"
+            style={{
+              color: 'var(--text-muted)',
+              transition: 'color 150ms cubic-bezier(0.23,1,0.32,1)',
+            }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)' }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
           >

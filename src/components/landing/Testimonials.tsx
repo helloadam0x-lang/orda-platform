@@ -19,8 +19,8 @@ const testimonials = [
     rotation: 0,
   },
   {
-    quote: 'I shared my Orda store link on TikTok and got 40 orders the same day. This changed everything.',
-    name: 'Amara D.', role: 'Fashion Store', country: 'Lagos',
+    quote: 'I shared my store link and got 40 orders the same day. Orda handled every single reply automatically. This changed everything.',
+    name: 'Amara D.', role: 'Fashion Store', country: 'Toronto',
     rotation: 1.5,
   },
 ]

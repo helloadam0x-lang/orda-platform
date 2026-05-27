@@ -5,6 +5,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import dynamic from 'next/dynamic'
 import { useMagneticCursor } from '@/hooks/useMagneticCursor'
+import { AuroraStaticBackground } from '@/components/ui/aurora-background'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -36,30 +37,8 @@ export default function CTA() {
       className="relative flex items-center justify-center overflow-hidden"
       style={{ minHeight: '100dvh', background: 'var(--bg-void)' }}
     >
-      {/* Atmospheric orbs — maximum for CTA */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute rounded-full" style={{
-          width: 900, height: 900,
-          top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-          background: 'radial-gradient(ellipse, rgba(212,168,83,0.06) 0%, transparent 60%)',
-          filter: 'blur(160px)',
-          animation: 'orb-breathe 12s ease-in-out infinite',
-        }} />
-        <div className="absolute rounded-full" style={{
-          width: 500, height: 500,
-          bottom: '10%', left: '10%',
-          background: 'radial-gradient(ellipse, rgba(255,255,255,0.025) 0%, transparent 65%)',
-          filter: 'blur(120px)',
-          animation: 'orb-breathe 9s ease-in-out infinite reverse',
-        }} />
-        <div className="absolute rounded-full" style={{
-          width: 400, height: 400,
-          top: '15%', right: '10%',
-          background: 'radial-gradient(ellipse, rgba(212,168,83,0.04) 0%, transparent 65%)',
-          filter: 'blur(100px)',
-          animation: 'orb-breathe 15s ease-in-out infinite 3s',
-        }} />
-      </div>
+      {/* Aurora background */}
+      <AuroraStaticBackground />
 
       {/* 3D Brain — 80vw centered behind text */}
       <div
@@ -100,9 +79,19 @@ export default function CTA() {
             Join 500+ businesses already running on Orda.
           </p>
 
-          <a ref={btnRef} href="#" className="btn-primary px-14 py-5 text-[17px] font-semibold gap-3">
-            Get Started Free — 7 Days →
-          </a>
+          <div className="relative">
+            <div
+              className="absolute inset-0 rounded-lg blur-xl pointer-events-none"
+              style={{
+                background: 'rgba(212,168,83,0.35)',
+                transform: 'scale(1.1) translateY(4px)',
+                animation: 'orb-breathe 3s ease-in-out infinite',
+              }}
+            />
+            <a ref={btnRef} href="#" className="btn-primary relative px-14 py-5 text-[17px] font-semibold gap-3">
+              Get Started Free — 7 Days →
+            </a>
+          </div>
 
           <div className="flex items-center gap-4 flex-wrap justify-center">
             {['No credit card', '5 minute setup', 'Cancel anytime'].map((t, i) => (
