@@ -1,27 +1,28 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { useMagneticCursor } from '@/hooks/useMagneticCursor'
-import { OrdaLogo } from '@/components/ui/OrdaLogo'
+import { useState, useEffect } from 'react'
+import { OrdaLogo } from '@/components/shared/OrdaLogo'
 
 export default function Navbar() {
-  const navRef = useRef<HTMLElement>(null)
-  const ctaRef = useMagneticCursor<HTMLAnchorElement>(0.2)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    gsap.fromTo(
-      navRef.current,
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'cubic-bezier(0.23,1,0.32,1)', delay: 0.3 }
-    )
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
     <nav
-      ref={navRef}
-      className="glass-nav fixed top-0 inset-x-0 z-50 h-[60px] flex items-center"
-      style={{ opacity: 0 }}
+      className="fixed top-0 inset-x-0 z-50 h-[60px] flex items-center"
+      style={{
+        background: scrolled ? 'rgba(5,5,7,0.85)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(32px) saturate(160%)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(32px) saturate(160%)' : 'none',
+        borderBottom: `1px solid ${scrolled ? 'rgba(255,255,255,0.05)' : 'transparent'}`,
+        transition: 'background 400ms cubic-bezier(0.23,1,0.32,1), border-color 400ms cubic-bezier(0.23,1,0.32,1), backdrop-filter 400ms cubic-bezier(0.23,1,0.32,1)',
+        animation: 'navFadeDown 0.5s cubic-bezier(0.23,1,0.32,1) 0.1s both',
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
         <OrdaLogo size="md" />
@@ -31,14 +32,18 @@ export default function Navbar() {
             { label: 'features', href: '#features' },
             { label: 'pricing', href: '#pricing' },
             { label: 'how it works', href: '#how-it-works' },
-            { label: 'testimonials', href: '#testimonials' },
           ].map(({ label, href }) => (
             <a
               key={label}
               href={href}
-              className="font-body text-[13px] font-normal lowercase tracking-[0.01em]"
               style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '13px',
+                fontWeight: 400,
+                textTransform: 'lowercase' as const,
+                letterSpacing: '0.01em',
                 color: 'var(--text-muted)',
+                textDecoration: 'none',
                 transition: 'color 150ms cubic-bezier(0.23,1,0.32,1)',
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)' }}
@@ -52,9 +57,13 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <a
             href="#"
-            className="hidden sm:block font-body text-[13px] px-4 py-2"
+            className="hidden sm:block"
             style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '13px',
+              padding: '8px 16px',
               color: 'var(--text-muted)',
+              textDecoration: 'none',
               transition: 'color 150ms cubic-bezier(0.23,1,0.32,1)',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)' }}
@@ -62,7 +71,11 @@ export default function Navbar() {
           >
             sign in
           </a>
-          <a ref={ctaRef} href="#" className="btn-primary px-5 py-2.5 text-[13px]">
+          <a
+            href="#"
+            className="btn-primary px-5 py-2.5 text-[13px]"
+            style={{ fontFamily: 'var(--font-body)' }}
+          >
             Start Free
           </a>
         </div>

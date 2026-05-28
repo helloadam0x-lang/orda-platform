@@ -25,7 +25,7 @@ export default function WhatsAppSection() {
               </div>
 
               <h2 style={{
-                fontFamily: "'Playfair Display', serif",
+                fontFamily: 'var(--font-display, "Playfair Display", serif)',
                 fontWeight: 900,
                 fontSize: 'clamp(40px, 5vw, 72px)',
                 lineHeight: 0.92,
@@ -43,6 +43,7 @@ export default function WhatsAppSection() {
               <p style={{
                 marginTop: '28px', fontSize: '16px', lineHeight: 1.7,
                 color: 'rgba(239,239,239,0.45)', maxWidth: '460px',
+                fontFamily: 'var(--font-body)',
               }}>
                 Orda connects directly to your WhatsApp Business number.
                 Every message answered. Every order captured.

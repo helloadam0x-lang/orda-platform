@@ -1,5 +1,6 @@
 'use client'
 
+import { CheckCircle } from 'lucide-react'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { BlurFade } from '@/components/ui/blur-fade'
@@ -50,7 +51,7 @@ export default function Pricing() {
         <BlurFade delay={0.1}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <h2 style={{
-              fontFamily: "'Playfair Display', serif",
+              fontFamily: 'var(--font-display, "Playfair Display", serif)',
               fontWeight: 900,
               fontSize: 'clamp(36px, 5vw, 64px)',
               letterSpacing: '-0.03em',
@@ -98,7 +99,7 @@ export default function Pricing() {
 
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '4px' }}>
                   <span style={{
-                    fontFamily: "'Playfair Display', serif",
+                    fontFamily: 'var(--font-display, "Playfair Display", serif)',
                     fontWeight: 900, fontSize: '52px',
                     color: plan.featured ? '#D4A853' : '#EFEFEF',
                     letterSpacing: '-0.03em', lineHeight: 1,
@@ -115,7 +116,7 @@ export default function Pricing() {
                 <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {plan.features.map((f, j) => (
                     <li key={j} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: 'rgba(239,239,239,0.6)' }}>
-                      <span style={{ color: '#D4A853', fontSize: '12px' }}>✓</span>
+                      <CheckCircle size={14} style={{ color: '#D4A853', flexShrink: 0 }} />
                       {f}
                     </li>
                   ))}

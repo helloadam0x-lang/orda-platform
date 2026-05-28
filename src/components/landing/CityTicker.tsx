@@ -6,6 +6,7 @@ const cities = [
   'New York', 'London', 'Dubai', 'Tokyo', 'Paris',
   'Toronto', 'Sydney', 'Singapore', 'Berlin', 'Mumbai',
   'São Paulo', 'Seoul', 'Amsterdam', 'Cape Town', 'Lagos',
+  'Nairobi', 'Mexico City', 'Jakarta',
 ]
 
 export default function CityTicker() {
@@ -17,7 +18,7 @@ export default function CityTicker() {
       padding: '18px 0',
       overflow: 'hidden',
     }}>
-      <Marquee pauseOnHover className='[--duration:40s]'>
+      <Marquee pauseOnHover className='[--duration:50s]'>
         {cities.map(city => (
           <span key={city} style={{
             marginRight: '48px',

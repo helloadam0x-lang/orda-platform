@@ -6,45 +6,91 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const QR_PATTERN = [
-  1,1,1,1,1,1,1,
-  1,0,0,0,0,0,1,
-  1,0,1,1,1,0,1,
-  1,0,1,0,1,0,1,
-  1,0,1,1,1,0,1,
-  1,0,0,0,0,0,1,
-  1,1,1,1,1,1,1,
-]
-
 function PhoneConnect() {
   return (
-    <div className="phone-frame mx-auto flex flex-col items-center justify-center gap-4 p-6">
-      <div className="mt-8 text-center">
-        <div
-          className="font-body text-[10px] uppercase mb-3 tracking-widest"
-          style={{ color: 'rgba(239,239,239,0.3)' }}
-        >
-          Scan to Connect
-        </div>
-        <div className="w-28 h-28 mx-auto rounded-xl bg-white p-2 flex items-center justify-center">
-          <div className="w-full h-full grid grid-cols-7 gap-px">
-            {QR_PATTERN.map((cell, i) => (
-              <div key={i} className={`rounded-[1px] ${cell ? 'bg-black' : 'bg-white'}`} />
-            ))}
+    <div className="phone-frame mx-auto flex flex-col">
+      <div className="mt-6 px-3 space-y-2">
+        {/* Shopify-style order notification */}
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(37,211,102,0.2)',
+          borderRadius: '14px',
+          padding: '14px',
+          animation: 'notification-drop 0.4s cubic-bezier(0.23,1,0.32,1) 0.2s both',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: '8px',
+              background: 'rgba(37,211,102,0.1)',
+              border: '1px solid rgba(37,211,102,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#25D366" strokeWidth="2">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '9px', color: 'rgba(239,239,239,0.4)', fontFamily: 'var(--font-body)', letterSpacing: '0.05em' }}>
+                New Order · Paid ✓
+              </div>
+              <div style={{ fontSize: '15px', fontWeight: 900, color: '#EFEFEF', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                $89.00
+              </div>
+            </div>
+            <div style={{
+              fontSize: '8px', fontWeight: 700, color: '#25D366',
+              background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.2)',
+              borderRadius: '4px', padding: '3px 6px', letterSpacing: '0.04em',
+              fontFamily: 'var(--font-body)',
+            }}>PAID</div>
           </div>
         </div>
-        <div
-          className="mt-4 px-3 py-1.5 rounded-full font-body text-[10px] font-semibold flex items-center gap-1.5 w-fit mx-auto"
-          style={{ background: 'rgba(37,211,102,0.12)', border: '1px solid rgba(37,211,102,0.25)', color: '#25D366' }}
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#25D366]" style={{ animation: 'pulse-dot 2s ease-in-out infinite' }} />
-          Live in 60 seconds
+
+        {/* AI replied notification */}
+        <div style={{
+          background: 'rgba(212,168,83,0.04)',
+          border: '1px solid rgba(212,168,83,0.15)',
+          borderRadius: '12px',
+          padding: '10px 14px',
+          animation: 'notification-drop 0.4s cubic-bezier(0.23,1,0.32,1) 0.6s both',
+          display: 'flex', alignItems: 'center', gap: '8px',
+        }}>
+          <div style={{
+            width: 6, height: 6, borderRadius: '50%',
+            background: '#D4A853',
+            animation: 'pulse-dot 2s ease-in-out infinite',
+            flexShrink: 0,
+          }} />
+          <div>
+            <div style={{ fontSize: '9px', color: 'rgba(239,239,239,0.35)', fontFamily: 'var(--font-body)' }}>Orda AI</div>
+            <div style={{ fontSize: '10px', color: '#EFEFEF', fontFamily: 'var(--font-body)' }}>Reply sent in 0.9s ✓</div>
+          </div>
         </div>
-      </div>
-      <div className="absolute bottom-10 left-0 right-0 px-4">
-        <div className="glass-surface rounded-xl p-3 text-center" style={{ border: '1px solid rgba(37,211,102,0.15)' }}>
-          <div className="font-body text-[10px]" style={{ color: 'var(--text-muted)' }}>WhatsApp connected</div>
-          <div className="font-body text-[11px] font-semibold mt-0.5" style={{ color: '#25D366' }}>+1 (555) 000-0000 ✓</div>
+
+        {/* Stats grid */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px',
+          animation: 'notification-drop 0.4s cubic-bezier(0.23,1,0.32,1) 1s both',
+        }}>
+          <div style={{
+            background: 'rgba(255,255,255,0.025)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '12px', padding: '12px', textAlign: 'center',
+          }}>
+            <div style={{ fontSize: '18px', fontWeight: 900, color: '#D4A853', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>$347</div>
+            <div style={{ fontSize: '8px', color: 'rgba(239,239,239,0.35)', marginTop: '2px', fontFamily: 'var(--font-body)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>today</div>
+          </div>
+          <div style={{
+            background: 'rgba(255,255,255,0.025)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '12px', padding: '12px', textAlign: 'center',
+          }}>
+            <div style={{ fontSize: '18px', fontWeight: 900, color: '#EFEFEF', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>24</div>
+            <div style={{ fontSize: '8px', color: 'rgba(239,239,239,0.35)', marginTop: '2px', fontFamily: 'var(--font-body)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>messages</div>
+          </div>
         </div>
       </div>
     </div>
@@ -156,8 +202,8 @@ function PhoneGrow() {
 const chapters = [
   {
     num: '01', label: 'STEP 01',
-    headline: 'Connect Your WhatsApp.',
-    body: 'Scan one QR code. Your WhatsApp Business number goes live in 60 seconds. No API keys. No developer needed.',
+    headline: 'Your AI starts earning immediately.',
+    body: 'Connect once. Every message answered. Every order captured. Every payment collected — automatically from minute one.',
     phone: <PhoneConnect />,
   },
   {

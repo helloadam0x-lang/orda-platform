@@ -17,7 +17,7 @@ export default function CTA() {
       <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
         <BlurFade delay={0.1}>
           <h2 style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: 'var(--font-display, "Playfair Display", serif)',
             fontWeight: 900,
             fontSize: 'clamp(48px, 8vw, 100px)',
             lineHeight: 0.88,

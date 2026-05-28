@@ -1,6 +1,6 @@
 'use client'
 
-import { OrdaLogo } from '@/components/ui/OrdaLogo'
+import { OrdaLogo } from '@/components/shared/OrdaLogo'
 
 export default function Footer() {
   const cols = [

@@ -30,7 +30,7 @@ export default function Stats() {
               borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
             }}>
               <div style={{
-                fontFamily: "'Playfair Display', serif",
+                fontFamily: 'var(--font-display, "Playfair Display", serif)',
                 fontWeight: 900,
                 fontSize: 'clamp(42px, 6vw, 72px)',
                 letterSpacing: '-0.03em',
