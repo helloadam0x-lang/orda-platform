@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Particles } from '@/components/ui/particles'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { BlurFade } from '@/components/ui/blur-fade'
@@ -41,14 +42,16 @@ export default function CTA() {
 
         <BlurFade delay={0.3}>
           <div style={{ marginTop: '40px' }}>
-            <ShimmerButton
-              shimmerColor='#D4A853'
-              background='rgba(212,168,83,0.12)'
-              borderRadius='10px'
-              className='px-10 py-4 text-base font-semibold text-[#D4A853] border border-[rgba(212,168,83,0.35)] hover:border-[rgba(212,168,83,0.7)]'
-            >
-              Get Started Free — 7 Days →
-            </ShimmerButton>
+            <Link href="/sign-up">
+              <ShimmerButton
+                shimmerColor='#D4A853'
+                background='rgba(212,168,83,0.12)'
+                borderRadius='10px'
+                className='px-10 py-4 text-base font-semibold text-[#D4A853] border border-[rgba(212,168,83,0.35)] hover:border-[rgba(212,168,83,0.7)]'
+              >
+                Get Started Free — 7 Days →
+              </ShimmerButton>
+            </Link>
           </div>
           <p style={{ marginTop: '16px', fontSize: '12px', color: 'rgba(239,239,239,0.2)', letterSpacing: '0.04em' }}>
             No credit card · 5 minute setup · Cancel anytime

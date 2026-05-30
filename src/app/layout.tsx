@@ -1,9 +1,23 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration'
+
+export const viewport: Viewport = {
+  themeColor: '#D4A853',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+}
 
 export const metadata: Metadata = {
   title: 'Orda — Every Customer. Always Answered.',
   description: 'Connect your WhatsApp. Get an AI agent that handles every customer message, takes orders, runs your store, and sends real notifications — automatically.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Orda',
+  },
   openGraph: {
     title: 'Orda — Every Customer. Always Answered.',
     description: 'The universal AI business platform. Connect WhatsApp. Run everything.',
@@ -24,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <div className="grain" aria-hidden="true" />
+        <ServiceWorkerRegistration />
         {children}
       </body>
     </html>

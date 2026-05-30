@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
@@ -118,14 +119,16 @@ export default function Hero() {
 
           <BlurFade delay={0.45}>
             <div style={{ display: 'flex', gap: '12px', marginTop: '40px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <ShimmerButton
-                shimmerColor='#D4A853'
-                background='rgba(212,168,83,0.12)'
-                borderRadius='8px'
-                className='px-7 py-3 text-sm font-semibold text-[#D4A853] border border-[rgba(212,168,83,0.3)] hover:border-[rgba(212,168,83,0.6)]'
-              >
-                Start Free — 7 Days
-              </ShimmerButton>
+              <Link href="/sign-up">
+                <ShimmerButton
+                  shimmerColor='#D4A853'
+                  background='rgba(212,168,83,0.12)'
+                  borderRadius='8px'
+                  className='px-7 py-3 text-sm font-semibold text-[#D4A853] border border-[rgba(212,168,83,0.3)] hover:border-[rgba(212,168,83,0.6)]'
+                >
+                  Start Free — 7 Days
+                </ShimmerButton>
+              </Link>
               <a href='#how-it-works' style={{
                 padding: '12px 24px',
                 background: 'transparent',

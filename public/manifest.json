@@ -1,0 +1,16 @@
+{
+  "name": "Orda — AI Business Assistant",
+  "short_name": "Orda",
+  "description": "Your AI answers every customer. You watch the orders come in.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#050507",
+  "theme_color": "#D4A853",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "categories": ["business", "productivity"]
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { OrdaLogo } from '@/components/shared/OrdaLogo'
 
 export default function Navbar() {
@@ -55,8 +56,8 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#"
+          <Link
+            href="/sign-in"
             className="hidden sm:block"
             style={{
               fontFamily: 'var(--font-body)',
@@ -70,14 +71,14 @@ export default function Navbar() {
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
           >
             sign in
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/sign-up"
             className="btn-primary px-5 py-2.5 text-[13px]"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Start Free
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

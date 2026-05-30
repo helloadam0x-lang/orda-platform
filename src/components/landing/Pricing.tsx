@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
 import { BorderBeam } from '@/components/ui/border-beam'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
@@ -122,14 +123,16 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                <ShimmerButton
-                  shimmerColor={plan.featured ? '#D4A853' : 'rgba(255,255,255,0.3)'}
-                  background={plan.featured ? 'rgba(212,168,83,0.15)' : 'rgba(255,255,255,0.05)'}
-                  borderRadius='10px'
-                  className={`w-full py-3 text-sm font-semibold ${plan.featured ? 'text-[#D4A853] border border-[rgba(212,168,83,0.4)]' : 'text-white/60 border border-white/10'}`}
-                >
-                  {plan.cta}
-                </ShimmerButton>
+                <Link href="/sign-up" className="block w-full">
+                  <ShimmerButton
+                    shimmerColor={plan.featured ? '#D4A853' : 'rgba(255,255,255,0.3)'}
+                    background={plan.featured ? 'rgba(212,168,83,0.15)' : 'rgba(255,255,255,0.05)'}
+                    borderRadius='10px'
+                    className={`w-full py-3 text-sm font-semibold ${plan.featured ? 'text-[#D4A853] border border-[rgba(212,168,83,0.4)]' : 'text-white/60 border border-white/10'}`}
+                  >
+                    {plan.cta}
+                  </ShimmerButton>
+                </Link>
               </div>
             </BlurFade>
           ))}
