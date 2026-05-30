@@ -3,7 +3,9 @@ import { sendPushToBusinessOwner } from '@/lib/push'
 
 export async function POST(req: NextRequest) {
   try {
-    const { businessId, title, body, tag, url, orderId, requireInteraction } = await req.json()
+    let payload: any = {}
+    try { payload = await req.json() } catch { /* empty body */ }
+    const { businessId, title, body, tag, url, orderId, requireInteraction } = payload
     if (!businessId || !title || !body) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
