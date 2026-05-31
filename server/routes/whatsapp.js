@@ -39,4 +39,57 @@ router.post('/disconnect', async (req, res) => {
   res.json({ success: true })
 })
 
+router.post('/send-to-customer', async (req, res) => {
+  const { businessId, customerPhone, message } = req.body
+  if (!businessId || !customerPhone || !message) {
+    return res.status(400).json({ error: 'Missing required fields' })
+  }
+
+  const client = clients.get(businessId)
+  if (!client) return res.status(503).json({ error: 'WhatsApp not connected' })
+
+  try {
+    const phoneId = customerPhone.replace(/\D/g, '') + '@c.us'
+    await client.sendMessage(phoneId, message)
+
+    const { createClient } = require('@supabase/supabase-js')
+    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
+
+    const { data: contact } = await supabase
+      .from('contacts').select('id').eq('business_id', businessId)
+      .eq('phone', customerPhone).single()
+
+    if (contact) {
+      const { data: conversation } = await supabase
+        .from('conversations').select('id')
+        .eq('business_id', businessId).eq('contact_id', contact.id)
+        .eq('status', 'open').single()
+
+      if (conversation) {
+        await supabase.from('messages').insert({
+          conversation_id: conversation.id,
+          business_id: businessId,
+          content: message,
+          role: 'owner',
+          platform: 'whatsapp',
+          is_ai: false,
+          read: true,
+        })
+      }
+    }
+    res.json({ success: true })
+  } catch (err) {
+    console.error('[Send to customer error]', err.message)
+    res.status(500).json({ error: err.message })
+  }
+})
+
+router.post('/notify', async (req, res) => {
+  const { businessId, message } = req.body
+  if (!businessId || !message) return res.status(400).json({ error: 'Missing fields' })
+  const { notifyOwner } = require('../notify')
+  await notifyOwner(businessId, message)
+  res.json({ success: true })
+})
+
 module.exports = router

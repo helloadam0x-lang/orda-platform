@@ -547,3 +547,19 @@ body {
     }
   }
 }
+
+/* ─── Orders Dashboard ─── */
+@layer utilities {
+  .ease-emil {
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+@keyframes highlightPulse {
+  0%   { box-shadow: 0 0 0 2px rgba(212,168,83,0.6) inset; }
+  100% { box-shadow: 0 0 0 2px rgba(212,168,83,0) inset; }
+}
+
+.animate-highlight {
+  animation: highlightPulse 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
