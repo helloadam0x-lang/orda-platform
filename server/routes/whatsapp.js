@@ -92,4 +92,49 @@ router.post('/notify', async (req, res) => {
   res.json({ success: true })
 })
 
+router.post('/send-to-owner', async (req, res) => {
+  const { businessId, phone, message } = req.body
+  if (!businessId || !phone || !message) return res.status(400).json({ error: 'Missing fields' })
+  const { clients } = require('../whatsapp')
+  const client = clients.get(businessId)
+  if (!client) return res.json({ ok: false, reason: 'not_connected' })
+  try {
+    const to = phone.replace(/\D/g, '') + '@c.us'
+    await client.sendMessage(to, message)
+    res.json({ ok: true })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+router.post('/broadcast', async (req, res) => {
+  const { businessId, message, audience } = req.body
+  if (!businessId || !message) return res.status(400).json({ error: 'Missing fields' })
+  const { clients } = require('../whatsapp')
+  const client = clients.get(businessId)
+  if (!client) return res.status(503).json({ error: 'WhatsApp not connected' })
+
+  const { createClient } = require('@supabase/supabase-js')
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
+
+  let q = supabase.from('contacts').select('name, phone').eq('business_id', businessId).eq('is_blocked', false)
+  if (audience === 'vip') q = q.eq('is_vip', true)
+  if (audience === 'ordered') q = q.gt('order_count', 0)
+
+  const { data: contacts } = await q
+  if (!contacts) return res.json({ sent: 0 })
+
+  let sent = 0
+  for (const c of contacts) {
+    try {
+      const personalised = message.replace(/\{\{name\}\}/g, c.name ?? 'Customer')
+      const phone = c.phone.replace(/\D/g, '') + '@c.us'
+      await client.sendMessage(phone, personalised)
+      sent++
+      await new Promise(r => setTimeout(r, 600))
+    } catch {}
+  }
+  res.json({ sent })
+})
+
 module.exports = router

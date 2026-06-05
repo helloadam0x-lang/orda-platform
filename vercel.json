@@ -1,0 +1,28 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "crons": [
+    {
+      "path": "/api/cron/daily-summary",
+      "schedule": "0 20 * * *"
+    },
+    {
+      "path": "/api/cron/trial-expiry",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/refresh-analytics",
+      "schedule": "*/30 * * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
+}
