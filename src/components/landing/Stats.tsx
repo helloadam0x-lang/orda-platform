@@ -1,12 +1,11 @@
 'use client'
 
-import { NumberTicker } from '@/components/ui/number-ticker'
 import { BlurFade } from '@/components/ui/blur-fade'
 
 const stats = [
-  { value: 2, suffix: 'M+', label: 'Messages Handled' },
-  { value: 54, suffix: '', label: 'Countries' },
-  { value: 500, suffix: '+', label: 'Businesses' },
+  { display: '2.4M+', label: 'Messages Handled' },
+  { display: '54',    label: 'Countries' },
+  { display: '500+',  label: 'Businesses' },
 ]
 
 export default function Stats() {
@@ -30,16 +29,14 @@ export default function Stats() {
               borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
             }}>
               <div style={{
-                fontFamily: 'var(--font-display, "Playfair Display", serif)',
+                fontFamily: '"Playfair Display", serif',
                 fontWeight: 900,
                 fontSize: 'clamp(42px, 6vw, 72px)',
                 letterSpacing: '-0.03em',
-                color: '#EFEFEF',
+                color: '#D4A853',
                 lineHeight: 1,
-                display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '2px',
               }}>
-                <NumberTicker value={stat.value} />
-                {stat.suffix}
+                {stat.display}
               </div>
               <p style={{
                 marginTop: '10px',

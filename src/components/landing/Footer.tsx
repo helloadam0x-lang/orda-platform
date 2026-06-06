@@ -1,14 +1,45 @@
 'use client'
 
+import Link from 'next/link'
 import { OrdaLogo } from '@/components/shared/OrdaLogo'
 
-export default function Footer() {
-  const cols = [
-    { label: 'PRODUCT', links: ['Features', 'Pricing', 'How It Works', 'Store Builder', 'Payments', 'WhatsApp'] },
-    { label: 'COMPANY', links: ['About', 'Blog', 'Careers', 'Press', 'Partners', 'Contact'] },
-    { label: 'SUPPORT', links: ['Help Center', 'Documentation', 'API Reference', 'Status', 'Privacy Policy', 'Terms'] },
-  ]
+const cols = [
+  {
+    label: 'PRODUCT',
+    links: [
+      { label: 'Features',      href: '/#features' },
+      { label: 'Pricing',       href: '/#pricing' },
+      { label: 'How It Works',  href: '/#how-it-works' },
+      { label: 'Store Builder', href: '/dashboard/store' },
+      { label: 'Payments',      href: '/dashboard/billing' },
+      { label: 'WhatsApp',      href: '/dashboard/connect' },
+    ],
+  },
+  {
+    label: 'COMPANY',
+    links: [
+      { label: 'About',    href: '/#story' },
+      { label: 'Blog',     href: '/' },
+      { label: 'Careers',  href: '/' },
+      { label: 'Press',    href: '/' },
+      { label: 'Partners', href: '/' },
+      { label: 'Contact',  href: 'mailto:hello@getorda.app' },
+    ],
+  },
+  {
+    label: 'SUPPORT',
+    links: [
+      { label: 'Help Center',    href: '/support' },
+      { label: 'Documentation',  href: '/support' },
+      { label: 'API Reference',  href: '/support' },
+      { label: 'Status',         href: '/api/health' },
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms',          href: '/terms' },
+    ],
+  },
+]
 
+export default function Footer() {
   return (
     <footer
       className="py-20"
@@ -38,10 +69,10 @@ export default function Footer() {
                 {col.label}
               </div>
               <ul className="space-y-2.5">
-                {col.links.map(l => (
-                  <li key={l}>
-                    <a
-                      href="#"
+                {col.links.map(link => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
                       className="font-body text-[13px]"
                       style={{
                         color: 'rgba(239,239,239,0.22)',
@@ -50,8 +81,8 @@ export default function Footer() {
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(239,239,239,0.55)' }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(239,239,239,0.22)' }}
                     >
-                      {l}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -65,10 +96,11 @@ export default function Footer() {
           style={{ borderTop: '1px solid var(--border-subtle)' }}
         >
           <p className="font-body text-[12px]" style={{ color: 'rgba(239,239,239,0.18)' }}>
-            © {new Date().getFullYear()} Orda Technologies. All rights reserved.
+            © {new Date().getFullYear()} Orda Technologies Ltd. All rights reserved.
           </p>
           <p className="font-body text-[12px]" style={{ color: 'rgba(239,239,239,0.18)' }}>
-            Made with precision
+            Made with precision in Kampala, Uganda ·{' '}
+            <span style={{ color: '#D4A853' }}>Powered by Orda</span>
           </p>
         </div>
       </div>
