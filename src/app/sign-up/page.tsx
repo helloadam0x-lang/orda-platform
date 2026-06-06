@@ -23,21 +23,29 @@ function SignUpForm() {
 
   async function signInWithGoogle() {
     setOauthLoading('google')
-    await supabase.auth.signInWithOAuth({
+    const { error: err } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${origin}/api/auth/callback`,
         queryParams: { access_type: 'offline', prompt: 'consent' },
       },
     })
+    if (err) {
+      setOauthLoading(null)
+      setError('Google sign-in is not enabled yet. Use your email below.')
+    }
   }
 
   async function signInWithApple() {
     setOauthLoading('apple')
-    await supabase.auth.signInWithOAuth({
+    const { error: err } = await supabase.auth.signInWithOAuth({
       provider: 'apple',
       options: { redirectTo: `${origin}/api/auth/callback` },
     })
+    if (err) {
+      setOauthLoading(null)
+      setError('Apple sign-in is not enabled yet. Use your email below.')
+    }
   }
 
   async function sendMagicLink(e: React.FormEvent) {
@@ -47,7 +55,10 @@ function SignUpForm() {
     setError('')
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${origin}/api/auth/callback` },
+      options: {
+        emailRedirectTo: `${origin}/api/auth/callback`,
+        shouldCreateUser: true,
+      },
     })
     setLoading(false)
     if (err) { setError(err.message); return }
