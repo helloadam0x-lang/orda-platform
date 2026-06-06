@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: orda-whatsapp-server
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node index.js
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SUPABASE_URL
+        value: https://zscxzwzjcatxvdflgavz.supabase.co
+      - key: SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzY3h6d3pqY2F0eHZkZmxnYXZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMjE1ODIsImV4cCI6MjA5NDU5NzU4Mn0.Lh3J1IxgqXHjTEt8FOXBhDgOehK1xNxP4o_hq-pR6Bw
+      - key: GEMINI_API_KEY
+        value: AQ.Ab8RN6LYCId5SgLdQwbwSpkjmP2pp-mDk681nyd_ojCt7sg_6A
+      - key: SENTRY_DSN
+        value: https://7d194ef06489541d2a0c60b9819c1320@o4511491753246720.ingest.de.sentry.io/4511508422197328
+      - key: NEXT_URL
+        value: https://orda-landing-adam-s-projects20.vercel.app
