@@ -10,7 +10,17 @@ export async function GET() {
     .from('businesses').select('id').eq('user_id', user.id).single()
   if (!business) return NextResponse.json({ error: 'No business found' }, { status: 404 })
 
-  const res = await fetch(`${process.env.EXPRESS_URL}/whatsapp/qr?businessId=${business.id}`)
-  const data = await res.json()
-  return NextResponse.json(data)
+  try {
+    const res = await fetch(
+      `${process.env.EXPRESS_URL}/whatsapp/qr?businessId=${business.id}`,
+      { signal: AbortSignal.timeout(25000) }
+    )
+    const data = await res.json()
+    return NextResponse.json(data, { headers: { 'Cache-Control': 'no-store' } })
+  } catch {
+    return NextResponse.json(
+      { status: 'loading', message: 'Server starting up (~20s cold start)...' },
+      { headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
 }

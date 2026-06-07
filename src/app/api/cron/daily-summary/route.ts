@@ -39,5 +39,10 @@ export async function GET(request: Request) {
     } catch {}
   }
 
-  return NextResponse.json({ sent })
+  // Keep Render server warm
+  fetch('https://orda-whatsapp-server.onrender.com/health', {
+    signal: AbortSignal.timeout(5000),
+  }).catch(() => {})
+
+  return NextResponse.json({ sent, timestamp: new Date().toISOString() })
 }

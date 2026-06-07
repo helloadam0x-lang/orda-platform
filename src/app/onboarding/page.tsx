@@ -118,13 +118,16 @@ export default function OnboardingPage() {
     }, 1800)
   }, [step])
 
+  const [onboardingError, setOnboardingError] = useState<string | null>(null)
+
   async function complete(finalData: Record<string, any>) {
     if (!userId) return
     setCompleting(true)
+    setOnboardingError(null)
     const slug = generateSlug(finalData.businessName)
     const referral_code = generateReferralCode(finalData.businessName)
 
-    await supabase.from('businesses').insert({
+    const { data: biz, error: bizErr } = await supabase.from('businesses').insert({
       user_id: userId,
       name: finalData.businessName,
       business_type: finalData.businessType,
@@ -136,13 +139,14 @@ export default function OnboardingPage() {
       auto_reply: true,
       is_active: true,
       plan: 'trial',
-      plan_expires_at: new Date(Date.now() + 7 * 86400000).toISOString(),
-    })
+      plan_expires_at: new Date(Date.now() + 37 * 86400000).toISOString(),
+    }).select('id').single()
 
-    // Add first product if provided
-    if (finalData.productName && finalData.productPrice) {
-      const { data: biz } = await supabase.from('businesses').select('id').eq('user_id', userId).single()
-      if (biz) {
+    try {
+      if (bizErr) throw bizErr
+
+      // Add first product if provided
+      if (finalData.productName && finalData.productPrice && biz) {
         await supabase.from('products').insert({
           business_id: biz.id,
           name: finalData.productName,
@@ -150,23 +154,26 @@ export default function OnboardingPage() {
           is_active: true,
         })
       }
+
+      await supabase.from('onboarding_progress').update({ completed: true, completed_at: new Date().toISOString() }).eq('user_id', userId)
+
+      // Track new customer in Airtable (non-blocking)
+      const { data: { user: authUser } } = await supabase.auth.getUser()
+      trackNewCustomer({
+        businessName: finalData.businessName,
+        ownerName: authUser?.user_metadata?.full_name ?? authUser?.user_metadata?.name,
+        email: authUser?.email,
+        country: finalData.country ?? '',
+        city: finalData.city ?? '',
+        businessType: finalData.businessType ?? '',
+        referralCode: referral_code,
+      })
+
+      router.push('/dashboard/connect')
+    } catch (err: any) {
+      setOnboardingError(err.message || 'Something went wrong. Please try again.')
+      setCompleting(false)
     }
-
-    await supabase.from('onboarding_progress').update({ completed: true, completed_at: new Date().toISOString() }).eq('user_id', userId)
-
-    // Track new customer in Airtable (non-blocking)
-    const { data: { user: authUser } } = await supabase.auth.getUser()
-    trackNewCustomer({
-      businessName: finalData.businessName,
-      ownerName: authUser?.user_metadata?.full_name ?? authUser?.user_metadata?.name,
-      email: authUser?.email,
-      country: finalData.country ?? '',
-      city: finalData.city ?? '',
-      businessType: finalData.businessType ?? '',
-      referralCode: referral_code,
-    })
-
-    router.push('/dashboard/connect')
   }
 
   const progress = ((step - 1) / 6) * 100
@@ -453,6 +460,16 @@ export default function OnboardingPage() {
               After your 7-day free trial, your plan renews automatically at $19/month (UGX 70,000). Cancel anytime from Dashboard → Billing — no questions asked. No credit card required to start.
             </div>
 
+            {onboardingError && (
+              <div style={{
+                padding: '10px 14px', borderRadius: 8,
+                background: 'rgba(255,59,48,0.08)',
+                border: '1px solid rgba(255,59,48,0.2)',
+                color: '#FF3B30', fontSize: 14,
+              }}>
+                {onboardingError}
+              </div>
+            )}
             <button
               onClick={() => complete(data)}
               disabled={completing}

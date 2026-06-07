@@ -35,12 +35,21 @@ export async function POST(request: Request) {
     status: 'pending',
   }).select('id').single()
 
-  // If DusuPay not configured, return mock
-  if (!DUSUPAY_SECRET_KEY || DUSUPAY_SECRET_KEY.includes('placeholder')) {
+  // DusuPay not yet configured — extend trial 30 days
+  if (!DUSUPAY_SECRET_KEY || DUSUPAY_SECRET_KEY.includes('placeholder') ||
+      !DUSUPAY_PUBLIC_KEY || DUSUPAY_PUBLIC_KEY.includes('placeholder')) {
+    const trialEnd = new Date()
+    trialEnd.setDate(trialEnd.getDate() + 30)
+    await supabase.from('businesses').update({
+      plan: 'trial',
+      plan_expires_at: trialEnd.toISOString(),
+    }).eq('id', businessId).eq('user_id', user.id)
     return NextResponse.json({
-      payment_url: `${APP_URL}/dashboard/billing?status=demo&plan=${plan}`,
-      message: 'Demo mode — configure DusuPay in .env',
-    })
+      success: true,
+      mode: 'trial_extended',
+      message: 'Payment system activating soon. Your trial has been extended 30 days.',
+      trialEnds: trialEnd.toISOString(),
+    }, { headers: { 'Cache-Control': 'no-store' } })
   }
 
   try {

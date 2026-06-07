@@ -18,7 +18,14 @@ export async function GET() {
     return NextResponse.json({ status: 'connected', phone: business.whatsapp_phone })
   }
 
-  const res = await fetch(`${process.env.EXPRESS_URL}/whatsapp/status?businessId=${business.id}`)
-  const data = await res.json()
-  return NextResponse.json(data)
+  try {
+    const res = await fetch(
+      `${process.env.EXPRESS_URL}/whatsapp/status?businessId=${business.id}`,
+      { signal: AbortSignal.timeout(5000) }
+    )
+    const data = await res.json()
+    return NextResponse.json(data)
+  } catch {
+    return NextResponse.json({ status: 'disconnected' })
+  }
 }

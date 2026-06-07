@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { initClient, disconnectClient, qrCodes, statuses } = require('../whatsapp')
+const { initClient, disconnectClient, clients, qrCodes, statuses } = require('../whatsapp')
 
 router.get('/qr', async (req, res) => {
   const { businessId } = req.query
