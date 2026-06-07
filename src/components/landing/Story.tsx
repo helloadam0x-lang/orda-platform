@@ -52,7 +52,7 @@ function PhoneConnect() {
         {/* AI replied notification */}
         <div style={{
           background: 'rgba(212,168,83,0.04)',
-          border: '1px solid rgba(212,168,83,0.15)',
+          border: '1px solid rgba(245,158,11,0.15)',
           borderRadius: '12px',
           padding: '10px 14px',
           animation: 'notification-drop 0.4s cubic-bezier(0.23,1,0.32,1) 0.6s both',
@@ -60,7 +60,7 @@ function PhoneConnect() {
         }}>
           <div style={{
             width: 6, height: 6, borderRadius: '50%',
-            background: '#D4A853',
+            background: '#F59E0B',
             animation: 'pulse-dot 2s ease-in-out infinite',
             flexShrink: 0,
           }} />
@@ -80,7 +80,7 @@ function PhoneConnect() {
             border: '1px solid rgba(255,255,255,0.06)',
             borderRadius: '12px', padding: '12px', textAlign: 'center',
           }}>
-            <div style={{ fontSize: '18px', fontWeight: 900, color: '#D4A853', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>$347</div>
+            <div style={{ fontSize: '18px', fontWeight: 900, color: '#F59E0B', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>$347</div>
             <div style={{ fontSize: '8px', color: 'rgba(239,239,239,0.35)', marginTop: '2px', fontFamily: 'var(--font-body)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>today</div>
           </div>
           <div style={{
@@ -117,7 +117,7 @@ function PhoneStore() {
             <div key={p.name} className="glass-surface rounded-xl p-3 flex items-center gap-3">
               <div
                 className="w-10 h-10 rounded-lg flex-shrink-0"
-                style={{ background: 'rgba(212,168,83,0.1)', border: '1px solid rgba(212,168,83,0.15)' }}
+                style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.15)' }}
               />
               <div className="flex-1 min-w-0">
                 <div className="font-body text-[11px] font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{p.name}</div>
@@ -126,7 +126,7 @@ function PhoneStore() {
               {p.hot && (
                 <span
                   className="font-body text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
-                  style={{ background: 'rgba(212,168,83,0.1)', color: 'var(--accent)', border: '1px solid rgba(212,168,83,0.2)' }}
+                  style={{ background: 'rgba(245,158,11,0.08)', color: 'var(--accent)', border: '1px solid rgba(212,168,83,0.2)' }}
                 >
                   Hot
                 </span>
@@ -160,8 +160,8 @@ function PhoneGrow() {
             <div
               className="px-2.5 py-1.5 font-body text-[10px] max-w-[80%]"
               style={{
-                background: m.from === 'c' ? 'rgba(255,255,255,0.07)' : 'rgba(212,168,83,0.08)',
-                border: `1px solid ${m.from === 'c' ? 'rgba(255,255,255,0.07)' : 'rgba(212,168,83,0.15)'}`,
+                background: m.from === 'c' ? 'rgba(255,255,255,0.07)' : 'rgba(245,158,11,0.06)',
+                border: `1px solid ${m.from === 'c' ? 'rgba(255,255,255,0.07)' : 'rgba(245,158,11,0.15)'}`,
                 borderRadius: m.from === 'c' ? '10px 10px 2px 10px' : '10px 10px 10px 2px',
                 color: 'var(--text-primary)',
               }}
@@ -330,7 +330,7 @@ export default function Story() {
           <div className="relative flex items-center justify-center" style={{ height: 480 }}>
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-80 h-80 rounded-full" style={{
-                background: 'radial-gradient(ellipse, rgba(212,168,83,0.08) 0%, transparent 70%)',
+                background: 'radial-gradient(ellipse, rgba(245,158,11,0.06) 0%, transparent 70%)',
                 filter: 'blur(40px)',
               }} />
             </div>

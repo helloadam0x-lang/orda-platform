@@ -12,22 +12,23 @@ const cities = [
 export default function CityTicker() {
   return (
     <div style={{
-      background: '#050507',
+      background: '#050505',
       borderTop: '1px solid rgba(255,255,255,0.04)',
       borderBottom: '1px solid rgba(255,255,255,0.04)',
-      padding: '18px 0',
+      padding: '14px 0',
       overflow: 'hidden',
     }}>
       <Marquee pauseOnHover className='[--duration:50s]'>
         {cities.map(city => (
           <span key={city} style={{
             marginRight: '48px',
-            fontSize: '11px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
             letterSpacing: '0.14em',
             textTransform: 'uppercase',
-            color: 'rgba(239,239,239,0.2)',
+            color: 'rgba(245,245,245,0.18)',
           }}>
-            {city} <span style={{ color: 'rgba(212,168,83,0.4)', marginLeft: '48px' }}>·</span>
+            {city} <span style={{ color: 'rgba(0,255,102,0.3)', marginLeft: '48px' }}>·</span>
           </span>
         ))}
       </Marquee>
