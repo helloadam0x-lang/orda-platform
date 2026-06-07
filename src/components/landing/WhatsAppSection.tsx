@@ -7,13 +7,13 @@ import NightGlobe from './NightGlobe';
 
 export default function WhatsAppSection() {
   return (
-    <section className="py-[140px] bg-[#050507] overflow-hidden relative font-['DM_Sans']">
+    <section className="py-[140px] bg-[#050505] overflow-hidden relative font-['DM_Sans']">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* Left Informational Content */}
         <div className="space-y-10 z-10">
           <div className="space-y-4">
-            <span className="text-[11px] font-medium tracking-[0.10em] uppercase text-[#D4A853] bg-[rgba(212,168,83,0.08)] px-3 py-1.5 rounded-full border border-[rgba(212,168,83,0.15)]">
+            <span className="text-[11px] font-medium tracking-[0.10em] uppercase text-[#F59E0B] bg-[rgba(212,168,83,0.08)] px-3 py-1.5 rounded-full border border-[rgba(212,168,83,0.15)]">
               Global Infrastructure
             </span>
             <h2 className="font-['Playfair_Display'] font-black text-[clamp(38px,5vw,72px)] tracking-tight text-[#EFEFEF] leading-[0.90]">
@@ -40,7 +40,7 @@ export default function WhatsAppSection() {
               {/* Order Notification Row */}
               <div className="flex items-start gap-4 bg-[rgba(212,168,83,0.04)] border border-[rgba(212,168,83,0.1)] rounded-[12px] p-4">
                 <div className="w-10 h-10 rounded-[10px] bg-[rgba(212,168,83,0.08)] border border-[rgba(212,168,83,0.15)] flex items-center justify-center shrink-0">
-                  <CreditCard size={18} color="#D4A853" strokeWidth={1.5} />
+                  <CreditCard size={18} color="#F59E0B" strokeWidth={1.5} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
@@ -72,7 +72,7 @@ export default function WhatsAppSection() {
           <div className="flex items-center gap-6 pt-2">
             <Link
               href="/sign-up"
-              className="px-6 py-3.5 bg-[#D4A853] hover:bg-[#E0B968] rounded-[10px] text-[#050507] text-[15px] font-semibold transition-all duration-150 outline-none"
+              className="px-6 py-3.5 bg-[#F59E0B] hover:bg-[#E0B968] rounded-[10px] text-[#050505] text-[15px] font-semibold transition-all duration-150 outline-none"
             >
               Start Free Trial
             </Link>

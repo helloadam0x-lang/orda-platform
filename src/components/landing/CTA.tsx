@@ -7,12 +7,12 @@ import { BlurFade } from '@/components/ui/blur-fade'
 
 export default function CTA() {
   return (
-    <section style={{ position: 'relative', background: '#050507', padding: '160px 0', overflow: 'hidden', textAlign: 'center' }}>
+    <section style={{ position: 'relative', background: '#050505', padding: '160px 0', overflow: 'hidden', textAlign: 'center' }}>
       <Particles
         className='absolute inset-0'
         quantity={60}
         ease={80}
-        color='#D4A853'
+        color='#F59E0B'
         refresh
       />
       <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
@@ -26,11 +26,7 @@ export default function CTA() {
             color: '#EFEFEF',
           }}>
             Your Business<br/>Never<br/>
-            <span style={{
-              background: 'linear-gradient(135deg, #D4A853, #F5D78E, #D4A853)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>Stops Working.</span>
+            <span style={{ color: '#F59E0B' }}>Stops Working.</span>
           </h2>
         </BlurFade>
 
@@ -44,10 +40,10 @@ export default function CTA() {
           <div style={{ marginTop: '40px' }}>
             <Link href="/sign-up">
               <ShimmerButton
-                shimmerColor='#D4A853'
-                background='rgba(212,168,83,0.12)'
+                shimmerColor='#F59E0B'
+                background='rgba(245,158,11,0.12)'
                 borderRadius='10px'
-                className='px-10 py-4 text-base font-semibold text-[#D4A853] border border-[rgba(212,168,83,0.35)] hover:border-[rgba(212,168,83,0.7)]'
+                className='px-10 py-4 text-base font-semibold text-[#F59E0B] border border-[rgba(245,158,11,0.35)] hover:border-[rgba(245,158,11,0.7)]'
               >
                 Get Started Free — 7 Days →
               </ShimmerButton>

@@ -17,7 +17,7 @@ export default function Navbar() {
     <nav
       className="fixed top-0 inset-x-0 z-50 h-[60px] flex items-center"
       style={{
-        background: scrolled ? 'rgba(5,5,7,0.85)' : 'transparent',
+        background: scrolled ? 'rgba(5,5,5,0.88)' : 'transparent',
         backdropFilter: scrolled ? 'blur(32px) saturate(160%)' : 'none',
         WebkitBackdropFilter: scrolled ? 'blur(32px) saturate(160%)' : 'none',
         borderBottom: `1px solid ${scrolled ? 'rgba(255,255,255,0.05)' : 'transparent'}`,
